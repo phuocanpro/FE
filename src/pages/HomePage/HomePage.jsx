@@ -5,10 +5,12 @@ import {
   WrapperButtonMore,
   WrapperTypeProduct,
   WrapperProducts,
+  WrapperBody,
 } from "./style";
 import slider1 from "../../assets/images/news-1.jpg";
 import slider2 from "../../assets/images/news-2.jpg";
 import slider3 from "../../assets/images/news-3.jpg";
+import bodybg from "../../assets/images/body-bg.jpg";
 import CardComponent from "../../components/CardComponent/CardComponent";
 import NavbarComponent from "../../components/NavbarComponent/NavbarComponent";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
@@ -23,10 +25,7 @@ const HomePage = () => {
           })}
         </WrapperTypeProduct>
       </div>
-      <div
-        className="body"
-        style={{ width: "100%", backgroundColor: "#efefef" }}
-      >
+      <div style={{ backgroundImage: `url(${bodybg})`, width: "100%" }}>
         <div
           id="container"
           style={{
