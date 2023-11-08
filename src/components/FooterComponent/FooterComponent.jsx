@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Badge, Col, Image } from "antd";
 import {
-  WrapperHeader,
+  WrapperFooter,
   WrapperTextHeader,
   WrapperHeaderAccount,
   WrapperTextHeaderSmall,
@@ -26,7 +26,7 @@ import ButtonComponent from "../ButtonComponent/ButtonComponent";
 //   color: "red",
 // };
 
-const HeaderComponent = () => {
+const FooterComponent = () => {
   const styleLi = {
     background: "hsla(240, 63%, 13%, 1)",
     marginRight: "20px",
@@ -52,16 +52,16 @@ const HeaderComponent = () => {
         background: "hsla(240, 63%, 13%, 1)",
         display: "flex",
         justifyContent: "center",
+        marginTop: "80px",
       }}
     >
-      <WrapperHeader>
+      <WrapperFooter>
         <Col span={3}>
           <img
             src={logo}
             style={{
               display: "block",
               width: "100%",
-              height: "100px",
             }}
             alt="logo"
           ></img>
@@ -79,7 +79,7 @@ const HeaderComponent = () => {
                 <ul style={{ position: "absolute", top: "100%", left: "85px" }}>
                   <li>GAME1</li>
                   <li>GAME2</li>
-                  <li>GAME3</li>
+                  <li>GAME4</li>
                 </ul>
               )}
             </li>
@@ -118,9 +118,9 @@ const HeaderComponent = () => {
             <WrapperTextHeaderSmall>Cart</WrapperTextHeaderSmall>
           </div>
         </Col>
-      </WrapperHeader>
+      </WrapperFooter>
     </div>
   );
 };
 
-export default HeaderComponent;
+export default FooterComponent;

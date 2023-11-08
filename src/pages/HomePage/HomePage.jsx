@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SliderComponent from "../../components/SliderComponent/SliderComponent";
 import TypeProduct from "../../components/TypeProduct/TypeProduct";
 import {
@@ -10,12 +10,14 @@ import {
 import slider1 from "../../assets/images/news-1.jpg";
 import slider2 from "../../assets/images/news-2.jpg";
 import slider3 from "../../assets/images/news-3.jpg";
-import bodybg from "../../assets/images/body-bg.jpg";
+
 import CardComponent from "../../components/CardComponent/CardComponent";
 import NavbarComponent from "../../components/NavbarComponent/NavbarComponent";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
+import banner from "../../assets/images/banner.png";
 const HomePage = () => {
   const arr = ["TV", "Tu lanh", "Laptop"];
+
   return (
     <>
       <div style={{ width: "1270px", margin: "0 auto" }}>
@@ -25,7 +27,22 @@ const HomePage = () => {
           })}
         </WrapperTypeProduct>
       </div>
-      <div style={{ backgroundImage: `url(${bodybg})`, width: "100%" }}>
+
+      <div>
+        <div style={{ textAlign: "center" }}>
+          <img
+            src={banner}
+            style={{
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto",
+              preview: "{false}",
+              width: "80%",
+              height: "500px",
+            }}
+            alt="banner"
+          ></img>
+        </div>
         <div
           id="container"
           style={{
@@ -49,7 +66,7 @@ const HomePage = () => {
               width: "100%",
               display: "flex",
               justifyContent: "center",
-              marginTop: "10px",
+              background: "hsla(240, 63%, 13%, 1)",
             }}
           >
             <WrapperButtonMore
@@ -57,7 +74,7 @@ const HomePage = () => {
               type="outline"
               styleButton={{
                 border: "1px solid rgb(11,116,229)",
-                color: "rgb(11,116,229",
+                color: "hsla(267, 100%, 63%, 0.3)",
                 width: "240px",
                 height: "38px",
                 borderRadius: "4px",
