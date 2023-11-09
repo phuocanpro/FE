@@ -14,6 +14,7 @@ import {
 import ButtonInputSearch from "../ButtonInputSearch/ButtonInputSearch";
 import logo from "../../assets/images/logo.png";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
+import { useNavigate } from "react-router-dom";
 // const sizeLi = {
 //   size: "larger",
 // };
@@ -44,6 +45,10 @@ const HeaderComponent = () => {
 
   const handleMouseLeave = () => {
     setShowGameMenu(false);
+  };
+  const navigate = useNavigate();
+  const handleNavigateLogin = () => {
+    navigate("/sign-in");
   };
   return (
     <div
@@ -101,7 +106,7 @@ const HeaderComponent = () => {
           <WrapperHeaderAccount>
             <UserOutlined style={{ fontSize: "30px" }} />
 
-            <div>
+            <div onClick={handleNavigateLogin} style={{ cursor: "pointer" }}>
               <WrapperTextHeaderSmall>Login/Register</WrapperTextHeaderSmall>
               <div>
                 <WrapperTextHeaderSmall>Account</WrapperTextHeaderSmall>

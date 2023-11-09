@@ -7,116 +7,164 @@ import {
   WrapperTextHeaderSmall,
 } from "./style";
 import {
-  UserOutlined,
-  CaretDownOutlined,
-  ShoppingCartOutlined,
+  FacebookOutlined,
+  TwitterOutlined,
+  InstagramOutlined,
+  YoutubeOutlined,
 } from "@ant-design/icons";
-import ButtonInputSearch from "../ButtonInputSearch/ButtonInputSearch";
 import logo from "../../assets/images/logo.png";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
-// const sizeLi = {
-//   size: "larger",
-// };
-// const styleButtonLi = {
-//   background: "hsla(240, 63%, 13%, 1)",
-//   marginRight: "20px",
-//   marginTop: "5px",
-// };
-// const styleTextLi = {
-//   color: "red",
-// };
+import InputForm from "../InputForm/InputForm";
 
 const FooterComponent = () => {
   const styleLi = {
-    background: "hsla(240, 63%, 13%, 1)",
-    marginRight: "20px",
-    marginTop: "5px",
-    size: "larger",
-    color: "red",
+    color: "#fff",
     listStyleType: "none",
-    fontWeight: "bold",
+    width: "40px",
+    height: "40px",
+    backgroundColor: "hsla(267, 100%, 63%, 0.3)",
+    display: "grid",
+    placeItems: "center",
+    clipPath: "polygon(0% 0%, 70% 0, 100% 30%, 100% 100%, 0 100%)",
+    transition: "250ms ease",
+    marginRight: "10px",
   };
-  const [showGameMenu, setShowGameMenu] = useState(false);
-
-  const handleMouseEnter = () => {
-    setShowGameMenu(true);
+  const styleColP = {
+    fontSize: "2rem",
+    fontWeight: "600",
+    lineHeight: 1,
+    position: "relative",
+    paddingBlockEnd: "10px",
+    marginBlockEnd: "20px",
+    maxWidth: "max-content",
+    color: "#fff",
   };
-
-  const handleMouseLeave = () => {
-    setShowGameMenu(false);
+  const styleColSpan = {
+    color: "hsla(267, 100%, 63%, 1)",
+    fontSize: "1.4rem",
+    textTransform: "uppercase",
+    fontWeight: "600",
+  };
+  const styleColDiv = {
+    marginBlockEnd: "15px",
+    color: "#fff",
+    fontSize: "larger",
+  };
+  const styleColA = {
+    color: "#fff",
+    paddingLeft: "2px",
+  };
+  const styleColInput = {
+    backgroundColor: "hsla(240, 63%, 13%, 0.9)",
+    color: "hsla(0, 0%, 100%, 1)",
+    fontSize: "1.6rem",
+    padding: "18px 12px",
+    boxShadow: "0px 2px 5px 0px hsla(0, 0%, 0%, 0.2)",
+    border: " 2px solid hsla(267, 100%, 63%, 0.3)",
+    marginBlockEnd: "15px",
+    outline: "none",
+    maxWidth: "calc(90%)",
+  };
+  const placeholderStyle = {
+    color: "#fff",
+  };
+  const styleColButton = {
+    position: "relative",
+    backgroundImage:
+      "linear-gradient(to right bottom, hsl(299, 100%, 52%), hsl(291, 100%, 58%), hsl(283, 100%, 60%), hsl(273, 100%, 62%), hsl(262, 100%, 63%), hsl(242, 100%, 69%), hsl(223, 100%, 62%), hsl(210, 100%, 50%), hsl(203, 100%, 50%), hsl(198, 100%, 50%), hsl(192, 100%, 48%), hsl(185, 90%, 48%))",
+    color: "hsla(0, 0%, 100%, 1)",
+    fontSize: "1.5rem",
+    fontWeight: "600",
+    maxWidth: "max-content",
+    minWidth: "180px",
+    height: "50px",
+    display: "grid",
+    placeItems: "center",
+    paddingInline: "30px",
+    clipPath: "polygon(0% 0%, 90% 0, 100% 30%, 100% 100%, 0 100%)",
+    overflow: "hidden",
+  };
+  const styleIcon = {
+    fontSize: "larger",
   };
   return (
     <div
       style={{
-        width: "100%",
-        background: "hsla(240, 63%, 13%, 1)",
         display: "flex",
         justifyContent: "center",
         marginTop: "80px",
       }}
     >
       <WrapperFooter>
-        <Col span={3}>
+        <Col span={8} style={{ color: "#fff" }}>
           <img
             src={logo}
             style={{
               display: "block",
-              width: "100%",
+              width: "50%",
+              marginBottom: "20px",
             }}
             alt="logo"
           ></img>
+          <div>
+            <p style={styleColP}>JOIN OUR NEWSLETTER</p>
+
+            <InputForm
+              style={styleColInput}
+              placeholder="Your Email"
+              placeholderStyle={placeholderStyle}
+            />
+            <ButtonComponent
+              size="larger"
+              styleButton={styleColButton}
+              styleTextButton={{}}
+              textButton="Subscribe Now"
+            />
+          </div>
         </Col>
-        <Col span={5}>
-          <ul style={{ display: "flex", position: "relative" }}>
-            <li style={styleLi}>HOME</li>
-            <li
-              style={styleLi}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              GAME
-              {showGameMenu && (
-                <ul style={{ position: "absolute", top: "100%", left: "85px" }}>
-                  <li>GAME1</li>
-                  <li>GAME2</li>
-                  <li>GAME4</li>
-                </ul>
-              )}
+        <Col span={8}>
+          <p style={styleColP}>Contact Us</p>
+
+          <div style={styleColDiv}>
+            <span style={styleColSpan}>Location: </span>
+
+            <a style={styleColA}>48 Binh Ki, Hoa Quy, Ngu Hanh Son, Da Nang</a>
+          </div>
+
+          <div style={styleColDiv}>
+            <span style={styleColSpan}>Join Us:</span>
+
+            <a style={styleColA} href="mailto:hakingdoms.com">
+              hakingdoms.com
+            </a>
+          </div>
+
+          <div style={styleColDiv}>
+            <span style={styleColSpan}>Phone:</span>
+
+            <a href="tel:0823469991" style={styleColA}>
+              0823469991
+            </a>
+          </div>
+        </Col>
+        <Col span={8}>
+          <ul style={{ display: "flex" }}>
+            <li style={styleLi}>
+              <FacebookOutlined style={styleIcon} />
+            </li>
+
+            <li style={styleLi}>
+              <TwitterOutlined style={styleIcon} />
+            </li>
+
+            <li style={styleLi}>
+              <InstagramOutlined style={styleIcon} />
+            </li>
+
+            <li style={styleLi}>
+              <YoutubeOutlined style={styleIcon} />
             </li>
           </ul>
-        </Col>
-        <Col span={10}>
-          <ButtonInputSearch
-            size="large"
-            textButton="Search"
-            placeholder="Input search text"
-            bordered={false}
-            //    onSearch={onSearch}
-          />
-        </Col>
-        <Col
-          span={6}
-          style={{ display: "flex", gap: "54px", alignItems: "center" }}
-        >
-          <WrapperHeaderAccount>
-            <UserOutlined style={{ fontSize: "30px" }} />
-
-            <div>
-              <WrapperTextHeaderSmall>Login/Register</WrapperTextHeaderSmall>
-              <div>
-                <WrapperTextHeaderSmall>Account</WrapperTextHeaderSmall>
-                <CaretDownOutlined />
-              </div>
-            </div>
-          </WrapperHeaderAccount>
-          <div>
-            <Badge count={4} size="small">
-              <ShoppingCartOutlined
-                style={{ fontSize: "30px", color: "#fff" }}
-              />
-            </Badge>
-            <WrapperTextHeaderSmall>Cart</WrapperTextHeaderSmall>
-          </div>
         </Col>
       </WrapperFooter>
     </div>

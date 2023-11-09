@@ -37,14 +37,13 @@ const HomePage = () => {
               marginLeft: "auto",
               marginRight: "auto",
               preview: "{false}",
-              width: "80%",
+              width: "1270px",
               height: "500px",
             }}
             alt="banner"
           ></img>
         </div>
         <div
-          id="container"
           style={{
             margin: "0 auto",
             height: "1000px",
