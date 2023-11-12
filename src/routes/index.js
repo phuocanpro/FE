@@ -6,6 +6,8 @@ import TypeProductPage from "../pages/TypeProductPage/TypeProductPage.jsx";
 import SignInPage from "../pages/SignInPage/SignInPage.jsx";
 import SignUpPage from "../pages/SignUpPage/SignUpPage.jsx";
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage.jsx";
+import CartPage from  "../pages/CartPage/Cart1.jsx";
+// import 
 export const routes = [
   {
     path: "/",
@@ -40,6 +42,11 @@ export const routes = [
   {
     path: "/product-details",
     page: ProductDetailsPage,
+    isShowHeader: true,
+  },
+  {
+    path: "/carts",
+    page: CartPage,
     isShowHeader: true,
   },
   {
