@@ -1,6 +1,6 @@
 import { Col, Row, Image } from "antd";
 import React from "react";
-import imageProduct from "../../assets/images/top2.jfif";
+import imageProduct from "../../assets/images/garena.jpg";
 import imageProductSmall from "../../assets/images/top3.jfif";
 import {
   WrapperPriceProduct,
@@ -9,16 +9,22 @@ import {
   WrapperStyleImageSmall,
   WrapperStyleNameProduct,
   WrapperStyleTextSell,
-  WrapperAddressProduct,
   WrapperQualityProduct,
   WrapperInputNumber,
+  WrapperPriceGach,
 } from "./style";
 import { StarFilled, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
 const ProductDetailsComponent = () => {
   const onChange = () => {};
+  const paymentMethods = [
+    { id: 'visa', name: 'VISA', logo: 'https://i.ibb.co/vjQCN4y/Visa-Card.png' },
+    { id: 'mastercard', name: 'Mastercard', logo: 'https://i.ibb.co/vdbBkgT/mastercard.jpg' },
+    { id: 'paypal', name: 'Paypal', logo: 'https://i.ibb.co/KVF3mr1/paypal.png' },
+    { id: 'AMEX', name: 'AMEX', logo: 'https://i.ibb.co/wQnrX86/American-Express.jpg' },
+  ];
   return (
-    <Row style={{ padding: "16px", background: "#fff", borderRadius: "4px" }}>
+    <Row style={{ padding: "16px", borderRadius: "4px" }}>
       <Col
         span={10}
         style={{ borderRight: "1px solid #e5e5e5", paddingRight: "8px" }}
@@ -28,7 +34,7 @@ const ProductDetailsComponent = () => {
             src={imageProduct}
             alt="Image Product"
             preview={false}
-            style={{ width: "115%" }}
+            style={{ width: "450px", height:"300px" }}
           />
         </Row>
 
@@ -73,13 +79,6 @@ const ProductDetailsComponent = () => {
             />
           </WrapperStyleColImage>
 
-          <WrapperStyleColImage span={4}>
-            <WrapperStyleImageSmall
-              src={imageProductSmall}
-              alt="Image Product Small"
-              preview={false}
-            />
-          </WrapperStyleColImage>
         </Row>
       </Col>
       <Col span={14} style={{ paddingLeft: "10px" }}>
@@ -94,14 +93,25 @@ const ProductDetailsComponent = () => {
         </div>
 
         <WrapperPriceProduct>
-          <WrapperPriceTextProduct>200.000</WrapperPriceTextProduct>
+         
+         <WrapperPriceGach>399.000Đ</WrapperPriceGach>
+          <WrapperPriceTextProduct>200.000Đ</WrapperPriceTextProduct>
         </WrapperPriceProduct>
-
-        <WrapperAddressProduct>
-          <span>to </span>
-          <span className="address">Da Nang </span> -
-          <span className="change-address">Change address</span>
-        </WrapperAddressProduct>
+        <div style={{ margin: '0 10px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+  <h4 style={{ color:'#fff', fontSize:'14px'}}>Select a <span style={{ color: '#6064b6' }}>Payment</span> method:</h4>
+  <form action="#" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+    {paymentMethods.map((method, index) => (
+      <div key={index} style={{ margin: '0 10px' }}>
+        <input type="radio" name="payment" id={method.id} />
+        <label htmlFor={method.id} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <img src={method.logo} alt="" style={{ width: '50px' }} />
+          <span><i style={{ color: '#6064b6' }}></i></span>
+        </label>
+      </div>
+    ))}
+  </form>
+        </div>
+        
 
         <div
           style={{
@@ -111,12 +121,12 @@ const ProductDetailsComponent = () => {
             borderBottom: "1px solid #e5e5e5",
           }}
         >
-          <div style={{ marginBottom: "10px" }}>Quantity</div>
+          <div style={{ marginBottom: "10px", color:'#fff', fontSize:'20px' }}>Quantity:</div>
           <WrapperQualityProduct>
-            <button style={{ border: "none", background: "transparent" }}>
+            <button style={{ border: "none", background: "#000" }}>
               <MinusOutlined
                 size="10"
-                style={{ color: "#000", fontSize: "20px" }}
+                style={{ color: "#FFF", fontSize: "20px" }}
               />
             </button>
 
@@ -126,10 +136,10 @@ const ProductDetailsComponent = () => {
               size="small"
             />
 
-            <button style={{ border: "none", background: "transparent" }}>
+            <button style={{ border: "none", background: "#000" }}>
               <PlusOutlined
                 size="10"
-                style={{ color: "#000", fontSize: "20px" }}
+                style={{ color: "#FFF", fontSize: "20px" }}
               />
             </button>
           </WrapperQualityProduct>

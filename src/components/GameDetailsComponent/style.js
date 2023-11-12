@@ -1,17 +1,17 @@
 import { Col, Image, InputNumber } from "antd";
 import styled from "styled-components";
 export const WrapperStyleImageSmall = styled(Image)`
-  height: 64px;
-  width: 64px;
+  height: 84px;
+  width: 84px;
 `;
 export const WrapperStyleColImage = styled(Col)`
   flex-basis: unset;
   display: flex;
 `;
 export const WrapperStyleNameProduct = styled.h1`
-  color: rgb(36, 36, 36);
+  color: #FF8C00;
   font-size: 24px;
-  font-weight: 300;
+  font-weight: Arial Black Italic;
   line-height: 32px;
   word-break: break-word;
 `;
@@ -21,34 +21,27 @@ export const WrapperStyleTextSell = styled.span`
   color: rgb(120, 120, 120);
 `;
 export const WrapperPriceProduct = styled.div`
-  background: rgb(250, 250, 250);
+ 
   border-radius: 4px;
 `;
-export const WrapperPriceTextProduct = styled.h1`
+export const WrapperPriceGach = styled.h1`
+  color: #C0C0C0;
+  text-decoration: line-through;
   font-size: 32px;
   line-height: 40px;
   margin-right: 8px;
   font-weight: 500;
-  padding: 10px;
-  margin-top: 10px;
+  
 `;
-export const WrapperAddressProduct = styled.div`
-  span.address {
-    text-decoration: underline;
-    font-size: 15px;
-    line-height: 24px;
-    font-weight: 500l
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  span.change-address{
-    color: rgb(11,116,229);
-    font-size:16px;
-    line-height:24px;
-    font-weight: 500;
-  }
+export const WrapperPriceTextProduct = styled.h1`
+  color:#6A5ACD;
+  font-size: 32px;
+  line-height: 40px;
+  margin-right: 8px;
+  font-weight: 500;
+  
 `;
+
 export const WrapperQualityProduct = styled.div`
   display: flex;
   gap: 4px;
