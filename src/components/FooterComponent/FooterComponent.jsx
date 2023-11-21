@@ -109,11 +109,7 @@ const FooterComponent = () => {
           <div>
             <p style={styleColP}>JOIN OUR NEWSLETTER</p>
 
-            <InputForm
-              style={styleColInput}
-              placeholder="Your Email"
-              placeholderStyle={placeholderStyle}
-            />
+            <InputForm style={styleColInput} placeholder="Your Email" />
             <ButtonComponent
               size="larger"
               styleButton={styleColButton}

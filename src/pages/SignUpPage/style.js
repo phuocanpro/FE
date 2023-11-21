@@ -7,7 +7,7 @@ export const WrapperContainerLeft = styled.div`
 `;
 export const WrapperContainerRight = styled.div`
   width: 300px;
-  background: rgb(186, 147, 216);
+  background: #b0c4de;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -15,7 +15,7 @@ export const WrapperContainerRight = styled.div`
   gap: 4px;
 `;
 export const WrapperTextLight = styled.span`
-color: rgb(255, 165, 0);
+  color: rgb(255, 165, 0);
   font-size: 15px;
   cursor: pointer;
 `;
