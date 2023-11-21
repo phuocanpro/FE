@@ -177,14 +177,7 @@ const SignInPage = () => {
               padding: "10px",
             }}
           >
-            <button
-              className="border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 text-white align-items:center"
-              style={{
-                backgroundColor: "	#FFF",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+            <button className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 text-[#002D74]">
               <svg
                 className="mr-3"
                 xmlns="http://www.w3.org/2000/svg"
@@ -208,19 +201,10 @@ const SignInPage = () => {
                   d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
                 />
               </svg>
-              <span style={{ fontFamily: "Arial", fontWeight: "bold" }}>
-                Login with Google
-              </span>
+              Login with Google
             </button>
 
-            <button
-              className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 "
-              style={{
-                backgroundColor: "#00008B",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+            <button className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 text-[#002D74]">
               <svg
                 className="mr-3"
                 xmlns="http://www.w3.org/2000/svg"
@@ -236,15 +220,7 @@ const SignInPage = () => {
                   d="M29,24h-3v8h-4v-8h-2v-4h2v-3c0-1.657,1.343-3,3-3h3v4h-3v1h3V24z"
                 />
               </svg>
-              <span
-                style={{
-                  color: "white",
-                  fontFamily: "Arial",
-                  fontWeight: "bold",
-                }}
-              >
-                Login with Facebook
-              </span>
+              Login with Facebook
             </button>
           </div>
 

@@ -24,12 +24,13 @@ export const WrapperPriceProduct = styled.div`
   border-radius: 4px;
 `;
 export const WrapperPriceGach = styled.h1`
-  color: #c0c0c0;
+  color: #C0C0C0;
+>>>>>>> 210c44dbcb4130121ec075eabd9b370042f5a4c9
   text-decoration: line-through;
   font-size: 32px;
   line-height: 40px;
   margin-right: 8px;
-  font-weight: 500;
+  font-weight: 500;  
 `;
 export const WrapperPriceTextProduct = styled.h1`
   color: #6a5acd;
