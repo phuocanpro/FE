@@ -1,6 +1,6 @@
 import { Image } from "antd";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import InputForm from "../../components/InputForm/InputForm";
@@ -11,13 +11,53 @@ import {
 } from "./style";
 import imageLogo from "../../assets/images/news-3.jpg";
 import { useNavigate } from "react-router-dom";
-
+import * as UserService from "../../services/UserService.js";
+import { useMutationHooks } from "../../hooks/userMutationHook";
+import Loading from "../../components/LoadingComponent/Loading";
+import * as message from "../../components/Message/Message.js";
 const SignUpPage = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const handleOnchangeUserName = (value) => {
+    setUserName(value);
+  };
+  const handleOnchangeEmail = (value) => {
+    setEmail(value);
+  };
+  const handleOnchangePassword = (value) => {
+    setPassword(value);
+  };
+  const handleOnchangeConfirmPassword = (value) => {
+    setConfirmPassword(value);
+  };
+  const handleSignup = () => {
+    // console.log("signup", email, password, confirmPassword);
+    mutation.mutate({
+      userName,
+      email,
+      password,
+      confirmPassword,
+    });
+  };
   const navigate = useNavigate();
-  const handleNavigateLogin = () => {
+  const handleNavigateSignIn = () => {
     navigate("/sign-in");
   };
+
+  const mutation = useMutationHooks((data) => UserService.signupUser(data));
+  const { data, isLoading, isSuccess, isError } = mutation;
+  useEffect(() => {
+    if (isSuccess) {
+      message.success();
+      handleNavigateSignIn();
+    } else if (isError) {
+      message.error();
+    }
+  }, [isSuccess, isError]);
   const h1Style = {
     display: "flex",
     justifyContent: "center",
@@ -65,11 +105,27 @@ const SignUpPage = () => {
           <div style={h1Style}>
             <h1>SIGN-UP</h1>
           </div>
+
+
+
           <InputForm style={{ marginBottom: "10px" }} placeholder="UserName" />
-          <InputForm style={{ marginBottom: "10px" }} placeholder="Email" />
+
+
+         
+
+          <InputForm
+            style={{ marginBottom: "10px" }}
+            placeholder="Email"
+            value={email}
+            onChange={handleOnchangeEmail}
+          />
+
 
           <div style={{ position: "relative" }}>
             <span
+              onClick={() => {
+                setIsShowPassword(!isShowPassword);
+              }}
               style={{
                 zIndex: 10,
                 position: "absolute",
@@ -83,12 +139,25 @@ const SignUpPage = () => {
               style={{ marginBottom: "10px" }}
               placeholder="Password"
               type={isShowPassword ? "text" : "password"}
+              value={password}
+              onChange={handleOnchangePassword}
             />
+
             
+
           </div>
 
+
+          
+
+          {data?.status === "ERR" && (
+            <span style={{ color: "red" }}>{data?.message}</span>
+          )}
           <ButtonComponent
-            bordered={false}
+            // disabled={
+            //   !email.length || !password.length || !confirmPassword.length
+            // }
+            onClick={handleSignup}
             size={40}
             styleButton={{
               backgroundColor: "#FFA500",
@@ -165,14 +234,13 @@ const SignUpPage = () => {
               <span style={{color: 'white', fontFamily:'Arial',fontWeight: 'bold'}}>SignUp with Facebook</span>  
                </button>
           </div>
-
           <p>
             <WrapperTextLight
-              onClick={handleNavigateLogin}
+              onClick={handleNavigateSignIn}
               style={{ cursor: "pointer" }}
             >
               {" "}
-             <u>You have account ? Sign In?</u> 
+              You have account ? Sign In
             </WrapperTextLight>
           </p>
         </WrapperContainerLeft>

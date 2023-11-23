@@ -6,8 +6,15 @@ import TypeProductPage from "../pages/TypeProductPage/TypeProductPage.jsx";
 import SignInPage from "../pages/SignInPage/SignInPage.jsx";
 import SignUpPage from "../pages/SignUpPage/SignUpPage.jsx";
 import GameDetailsPage from "../pages/GameDetailsPage/GameDetailsPage.jsx";
+import ProfilePage from "../pages/Profile/ProfilePage.jsx";
+
+
 
 // import 
+
+
+
+
 export const routes = [
   {
     path: "/",
@@ -44,7 +51,14 @@ export const routes = [
     page: GameDetailsPage,
     isShowHeader: true,
   },
+
+  {
+    path: "/profile-user",
+    page: ProfilePage,
+    isShowHeader: true,
+  },
  
+
   {
     path: "*",
     page: NotFoundPage,

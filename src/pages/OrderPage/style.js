@@ -1,96 +1,111 @@
-import { Checkbox } from "antd";
-import styled  from "styled-components";
+import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
-export const WrapperStyleHeader = styled.div`
-  background: rgb(255, 255, 255);
-  padding: 9px 16px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  span {
-    color: rgb(36, 36, 36);
-    font-weight: 400;
-    font-size: 13px;
-  }
-`
-export const WrapperStyleHeaderDilivery = styled.div`
-  background: rgb(255, 255, 255);
-  padding: 9px 16px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  span {
-    color: rgb(36, 36, 36);
-    font-weight: 400;
-    font-size: 13px;
-  };
-  margin-bottom: 4px;
-`
+const initialState = {
+  cartItems: localStorage.getItem("cartItems")
+    ? JSON.parse(localStorage.getItem("cartItems"))
+    : [],
+  cartTotalQuantity: 0,
+  cartTotalAmount: 0,
+};
 
-export const WrapperLeft = styled.div`
-  width: 910px;
-`
+const cartSlice = createSlice({
+  name: "cart",
+  initialState,
+  reducers: {
+    addToCart(state, action) {
+      const existingIndex = state.cartItems.findIndex(
+        (item) => item.id === action.payload.id
+      );
 
-export const WrapperListOrder = styled.div`
+      if (existingIndex >= 0) {
+        state.cartItems[existingIndex] = {
+          ...state.cartItems[existingIndex],
+          cartQuantity: state.cartItems[existingIndex].cartQuantity + 1,
+        };
+        toast.info("Increased product quantity", {
+          position: "bottom-left",
+        });
+      } else {
+        let tempProductItem = { ...action.payload, cartQuantity: 1 };
+        state.cartItems.push(tempProductItem);
+        toast.success("Product added to cart", {
+          position: "bottom-left",
+        });
+      }
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+    },
+    decreaseCart(state, action) {
+      const itemIndex = state.cartItems.findIndex(
+        (item) => item.id === action.payload.id
+      );
 
-`
+      if (state.cartItems[itemIndex].cartQuantity > 1) {
+        state.cartItems[itemIndex].cartQuantity -= 1;
 
-export const WrapperItemOrder = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 9px 16px;
-  background: #fff;
-  margin-top: 12px;
-`
+        toast.info("Decreased product quantity", {
+          position: "bottom-left",
+        });
+      } else if (state.cartItems[itemIndex].cartQuantity === 1) {
+        const nextCartItems = state.cartItems.filter(
+          (item) => item.id !== action.payload.id
+        );
 
-export const WrapperPriceDiscount = styled.span`
-  color: #999;
-  font-size: 12px;
-  text-decoration: line-through;
-  margin-left: 4px;
-`
-export const WrapperCountOrder  = styled.div`
-  display: flex;
-  align-items: center;
-  width: 84px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`
+        state.cartItems = nextCartItems;
 
-export const WrapperRight = styled.div`
-  width: 320px;
-  margin-left: 20px;
-  display: flex ;
-  flex-direction: column; 
-  gap: 10px; 
-  align-items: center
-`
+        toast.error("Product removed from cart", {
+          position: "bottom-left",
+        });
+      }
 
-export const WrapperInfo = styled.div`
-  padding: 17px 20px;
-  border-bottom: 1px solid #f5f5f5;
-  background: #fff;
-  border-top-right-radius: 6px;
-  border-top-left-radius: 6px;
-  width: 100%
-`
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+    },
+    removeFromCart(state, action) {
+      state.cartItems.map((cartItem) => {
+        if (cartItem.id === action.payload.id) {
+          const nextCartItems = state.cartItems.filter(
+            (item) => item.id !== cartItem.id
+          );
 
-export const WrapperTotal = styled.div`
-  display: flex;
-   align-items: flex-start; 
-   justify-content: space-between;
-    padding: 17px 20px;
-    background: #fff ;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
-`
+          state.cartItems = nextCartItems;
 
-export const CustomCheckbox = styled(Checkbox)`
-  .ant-checkbox-checked .ant-checkbox-inner {
-    background-color: #9255FD;
-    border-color: #9255FD;
-  }
-  .ant-checkbox:hover .ant-checkbox-inner {
-    border-color: #9255FD;
-  }
-`
+          toast.error("Product removed from cart", {
+            position: "bottom-left",
+          });
+        }
+        localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+        return state;
+      });
+    },
+    getTotals(state, action) {
+      let { total, quantity } = state.cartItems.reduce(
+        (cartTotal, cartItem) => {
+          const { price, cartQuantity } = cartItem;
+          const itemTotal = price * cartQuantity;
+
+          cartTotal.total += itemTotal;
+          cartTotal.quantity += cartQuantity;
+
+          return cartTotal;
+        },
+        {
+          total: 0,
+          quantity: 0,
+        }
+      );
+      total = parseFloat(total.toFixed(2));
+      state.cartTotalQuantity = quantity;
+      state.cartTotalAmount = total;
+    },
+    clearCart(state, action) {
+      state.cartItems = [];
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      toast.error("Cart cleared", { position: "bottom-left" });
+    },
+  },
+});
+
+export const { addToCart, decreaseCart, removeFromCart, getTotals, clearCart } =
+  cartSlice.actions;
+
+export default cartSlice.reducer;
