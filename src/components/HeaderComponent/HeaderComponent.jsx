@@ -14,7 +14,10 @@ import {
 import ButtonInputSearch from "../ButtonInputSearch/ButtonInputSearch";
 import logo from "../../assets/images/logo.png";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { faHome, faGamepad } from '@fortawesome/free-solid-svg-icons';
 // const sizeLi = {
 //   size: "larger",
 // };
@@ -33,7 +36,7 @@ const HeaderComponent = () => {
     marginRight: "20px",
     marginTop: "5px",
     size: "larger",
-    color: "red",
+    color: "#fff",
     listStyleType: "none",
     fontWeight: "bold",
   };
@@ -73,21 +76,14 @@ const HeaderComponent = () => {
         </Col>
         <Col span={5}>
           <ul style={{ display: "flex", position: "relative" }}>
-            <li style={styleLi}>HOME</li>
-            <li
-              style={styleLi}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              GAME
-              {showGameMenu && (
-                <ul style={{ position: "absolute", top: "100%", left: "85px" }}>
-                  <li>GAME1</li>
-                  <li>GAME2</li>
-                  <li>GAME3</li>
-                </ul>
-              )}
-            </li>
+          <div style={{ display: 'flex', alignItems: 'center', color:'#fff',fontSize:'15px', fontWeight:'bold', marginRight:'10px' }}>
+        <FontAwesomeIcon icon={faHome} style={{marginRight:'5px'}} />
+        <span>Home</span>
+         </div>
+         <div style={{ display: 'flex', alignItems: 'center', color:'#fff',fontSize:'15px', fontWeight:'bold' }}>
+        <FontAwesomeIcon icon={faGamepad} style={{marginRight:'5px'}} />
+        <span>Game</span>
+      </div>
           </ul>
         </Col>
         <Col span={10}>
