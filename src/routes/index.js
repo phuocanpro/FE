@@ -6,8 +6,13 @@ import TypeProductPage from "../pages/TypeProductPage/TypeProductPage.jsx";
 import SignInPage from "../pages/SignInPage/SignInPage.jsx";
 import SignUpPage from "../pages/SignUpPage/SignUpPage.jsx";
 import GameDetailsPage from "../pages/GameDetailsPage/GameDetailsPage.jsx";
+<<<<<<< HEAD
 
 // import 
+=======
+import ProfilePage from "../pages/Profile/ProfilePage.jsx";
+import CartPage from "../pages/CartPage/Cart1.jsx";
+>>>>>>> a83b252bad918825da02b12de1b9549157243549
 export const routes = [
   {
     path: "/",
@@ -44,7 +49,21 @@ export const routes = [
     page: GameDetailsPage,
     isShowHeader: true,
   },
+<<<<<<< HEAD
   
+=======
+  {
+    path: "/profile-user",
+    page: ProfilePage,
+    isShowHeader: true,
+  },
+  {
+    path: "/carts",
+    page: CartPage,
+
+    isShowHeader: true,
+  },
+>>>>>>> a83b252bad918825da02b12de1b9549157243549
   {
     path: "*",
     page: NotFoundPage,

@@ -9,7 +9,7 @@ export const WrapperStyleColImage = styled(Col)`
   display: flex;
 `;
 export const WrapperStyleNameProduct = styled.h1`
-  color: #FF8C00;
+  color: #ff8c00;
   font-size: 24px;
   font-weight: Arial Black Italic;
   line-height: 32px;
@@ -21,27 +21,24 @@ export const WrapperStyleTextSell = styled.span`
   color: rgb(120, 120, 120);
 `;
 export const WrapperPriceProduct = styled.div`
- 
   border-radius: 4px;
 `;
 export const WrapperPriceGach = styled.h1`
   color: #C0C0C0;
+>>>>>>> 210c44dbcb4130121ec075eabd9b370042f5a4c9
   text-decoration: line-through;
   font-size: 32px;
   line-height: 40px;
   margin-right: 8px;
-  font-weight: 500;
-  
+  font-weight: 500;  
 `;
 export const WrapperPriceTextProduct = styled.h1`
-  color:#6A5ACD;
+  color: #6a5acd;
   font-size: 32px;
   line-height: 40px;
   margin-right: 8px;
   font-weight: 500;
-  
 `;
-
 export const WrapperQualityProduct = styled.div`
   display: flex;
   gap: 4px;

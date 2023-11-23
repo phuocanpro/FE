@@ -1,6 +1,6 @@
 import { Image } from "antd";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import InputForm from "../../components/InputForm/InputForm";
@@ -11,13 +11,53 @@ import {
 } from "./style";
 import imageLogo from "../../assets/images/news-3.jpg";
 import { useNavigate } from "react-router-dom";
-
+import * as UserService from "../../services/UserService.js";
+import { useMutationHooks } from "../../hooks/userMutationHook";
+import Loading from "../../components/LoadingComponent/Loading";
+import * as message from "../../components/Message/Message.js";
 const SignUpPage = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const handleOnchangeUserName = (value) => {
+    setUserName(value);
+  };
+  const handleOnchangeEmail = (value) => {
+    setEmail(value);
+  };
+  const handleOnchangePassword = (value) => {
+    setPassword(value);
+  };
+  const handleOnchangeConfirmPassword = (value) => {
+    setConfirmPassword(value);
+  };
+  const handleSignup = () => {
+    // console.log("signup", email, password, confirmPassword);
+    mutation.mutate({
+      userName,
+      email,
+      password,
+      confirmPassword,
+    });
+  };
   const navigate = useNavigate();
-  const handleNavigateLogin = () => {
+  const handleNavigateSignIn = () => {
     navigate("/sign-in");
   };
+
+  const mutation = useMutationHooks((data) => UserService.signupUser(data));
+  const { data, isLoading, isSuccess, isError } = mutation;
+  useEffect(() => {
+    if (isSuccess) {
+      message.success();
+      handleNavigateSignIn();
+    } else if (isError) {
+      message.error();
+    }
+  }, [isSuccess, isError]);
   const h1Style = {
     display: "flex",
     justifyContent: "center",
@@ -66,12 +106,24 @@ const SignUpPage = () => {
             <h1>SIGN-UP</h1>
           </div>
 
+<<<<<<< HEAD
           <InputForm style={{ marginBottom: "10px" }} placeholder="UserName" />
 
           <InputForm style={{ marginBottom: "10px" }} placeholder="Email" />
+=======
+          <InputForm
+            style={{ marginBottom: "10px" }}
+            placeholder="Email"
+            value={email}
+            onChange={handleOnchangeEmail}
+          />
+>>>>>>> a83b252bad918825da02b12de1b9549157243549
 
           <div style={{ position: "relative" }}>
             <span
+              onClick={() => {
+                setIsShowPassword(!isShowPassword);
+              }}
               style={{
                 zIndex: 10,
                 position: "absolute",
@@ -85,12 +137,44 @@ const SignUpPage = () => {
               style={{ marginBottom: "10px" }}
               placeholder="Password"
               type={isShowPassword ? "text" : "password"}
+              value={password}
+              onChange={handleOnchangePassword}
             />
+          </div>
+          <div style={{ position: "relative" }}>
+            <span
+              onClick={() => {
+                setIsShowConfirmPassword(!isShowConfirmPassword);
+              }}
+              style={{
+                zIndex: 12,
+                position: "absolute",
+                top: "4px",
+                right: "8px",
+              }}
+            >
+              {isShowConfirmPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
+            </span>
+            <InputForm
+              placeholder="confirm password"
+              type={isShowConfirmPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={handleOnchangeConfirmPassword}
+            />
+<<<<<<< HEAD
            
+=======
+>>>>>>> a83b252bad918825da02b12de1b9549157243549
           </div>
 
+          {data?.status === "ERR" && (
+            <span style={{ color: "red" }}>{data?.message}</span>
+          )}
           <ButtonComponent
-            bordered={false}
+            // disabled={
+            //   !email.length || !password.length || !confirmPassword.length
+            // }
+            onClick={handleSignup}
             size={40}
             styleButton={{
               backgroundColor: "#FFA500",
@@ -121,7 +205,7 @@ const SignUpPage = () => {
               padding: "10px",
             }}
           >
-            <button className="border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 text-white align-items:center" style={{backgroundColor: '	#FFF', display:'flex', alignItems:'center' }}>
+            <button className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 text-[#002D74]">
               <svg
                 className="mr-3"
                 xmlns="http://www.w3.org/2000/svg"
@@ -145,10 +229,10 @@ const SignUpPage = () => {
                   d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
                 />
               </svg>
-              <span style={{ fontFamily:'Arial',fontWeight: 'bold'}}>SignUp with Google</span>
+              SignUp with Google
             </button>
 
-            <button className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 " style={{backgroundColor: '#00008B', display:'flex', alignItems:'center' }}>
+            <button className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 text-[#002D74]">
               <svg
                 className="mr-3"
                 xmlns="http://www.w3.org/2000/svg"
@@ -164,17 +248,16 @@ const SignUpPage = () => {
                   d="M29,24h-3v8h-4v-8h-2v-4h2v-3c0-1.657,1.343-3,3-3h3v4h-3v1h3V24z"
                 />
               </svg>
-              <span style={{color: 'white', fontFamily:'Arial',fontWeight: 'bold'}}>SignUp with Facebook</span>  
-               </button>
+              SignUp with Facebook
+            </button>
           </div>
-
           <p>
             <WrapperTextLight
-              onClick={handleNavigateLogin}
+              onClick={handleNavigateSignIn}
               style={{ cursor: "pointer" }}
             >
               {" "}
-             <u>You have account ? Sign In?</u> 
+              You have account ? Sign In
             </WrapperTextLight>
           </p>
         </WrapperContainerLeft>

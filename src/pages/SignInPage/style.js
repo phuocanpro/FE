@@ -7,7 +7,7 @@ export const WrapperContainerLeft = styled.div`
 `;
 export const WrapperContainerRight = styled.div`
   width: 300px;
-  background-color: #9370DB;
+  background-color: #9370db;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -19,4 +19,3 @@ export const WrapperTextLight = styled.span`
   font-size: 15px;
   cursor: pointer;
 `;
-
