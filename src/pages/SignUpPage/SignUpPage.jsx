@@ -65,7 +65,7 @@ const SignUpPage = () => {
           <div style={h1Style}>
             <h1>SIGN-UP</h1>
           </div>
-
+          <InputForm style={{ marginBottom: "10px" }} placeholder="UserName" />
           <InputForm style={{ marginBottom: "10px" }} placeholder="Email" />
 
           <div style={{ position: "relative" }}>
@@ -84,19 +84,7 @@ const SignUpPage = () => {
               placeholder="Password"
               type={isShowPassword ? "text" : "password"}
             />
-            <div style={{ position: "relative" }}>
-              <span
-                style={{
-                  zIndex: 12,
-                  position: "absolute",
-                  top: "4px",
-                  right: "8px",
-                }}
-              >
-                {isShowPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
-              </span>
-              <InputForm placeholder="Confirm password" />
-            </div>
+            
           </div>
 
           <ButtonComponent

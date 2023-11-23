@@ -66,30 +66,13 @@ const HeaderComponent = () => {
             style={{
               display: "block",
               width: "100%",
-              height: "100px",
+              height: "100%",
+             
             }}
             alt="logo"
           ></img>
         </Col>
-        <Col span={5}>
-          <ul style={{ display: "flex", position: "relative" }}>
-            <li style={styleLi}>HOME</li>
-            <li
-              style={styleLi}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              GAME
-              {showGameMenu && (
-                <ul style={{ position: "absolute", top: "100%", left: "85px" }}>
-                  <li>GAME1</li>
-                  <li>GAME2</li>
-                  <li>GAME3</li>
-                </ul>
-              )}
-            </li>
-          </ul>
-        </Col>
+       
         <Col span={10}>
           <ButtonInputSearch
             size="large"
