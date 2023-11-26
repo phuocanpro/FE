@@ -28,6 +28,7 @@ const FooterComponent = () => {
     clipPath: "polygon(0% 0%, 70% 0, 100% 30%, 100% 100%, 0 100%)",
     transition: "250ms ease",
     marginRight: "10px",
+   
   };
   const styleColP = {
     fontSize: "2rem",
@@ -56,7 +57,7 @@ const FooterComponent = () => {
   };
   const styleColInput = {
     backgroundColor: "hsla(240, 63%, 13%, 0.9)",
-    color: "hsla(0, 0%, 100%, 1)",
+    color: "#fff",
     fontSize: "1.6rem",
     padding: "18px 12px",
     boxShadow: "0px 2px 5px 0px hsla(0, 0%, 0%, 0.2)",
@@ -92,7 +93,8 @@ const FooterComponent = () => {
       style={{
         display: "flex",
         justifyContent: "center",
-        marginTop: "80px",
+        marginTop: "800px",
+        marginBottom:'50px',
       }}
     >
       <WrapperFooter>
@@ -148,7 +150,7 @@ const FooterComponent = () => {
           </div>
         </Col>
         <Col span={8}>
-          <ul style={{ display: "flex" }}>
+          <ul style={{ display: "flex", }}>
             <li style={styleLi}>
               <FacebookOutlined style={styleIcon} />
             </li>
