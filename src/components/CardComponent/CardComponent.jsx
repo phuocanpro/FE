@@ -10,7 +10,9 @@ import {
 import { StarFilled } from "@ant-design/icons";
 import logo from "../../assets/images/official.jfif";
 
-const CardComponent = () => {
+const CardComponent = (props) => {
+  const { key, image, name, price, type, description, rating, platform } =
+    props;
   return (
     <WrapperCardStyle
       hoverable
@@ -36,17 +38,17 @@ const CardComponent = () => {
         }}
         alt="logo"
       />
-      <StyleNameProduct>Iphone</StyleNameProduct>
+      <StyleNameProduct>{name}</StyleNameProduct>
       <WrapperReportText>
         <span style={{ marginRight: "40px" }}>
-          <span>4.96</span>
+          <span>{rating}</span>
           <StarFilled style={{ fontSize: "12px", color: "yellow" }} />
         </span>
 
         <WrapperStyleTextSell>| Buy 1000+</WrapperStyleTextSell>
       </WrapperReportText>
       <WrapperPriceText>
-        <span style={{ marginRight: "8px" }}>1.000.000d</span>
+        <span style={{ marginRight: "8px" }}>{price}</span>
         <WrapperDiscountText>-5%</WrapperDiscountText>
       </WrapperPriceText>
     </WrapperCardStyle>
