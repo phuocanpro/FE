@@ -105,7 +105,7 @@ const HeaderComponent = () => {
           ></img>
         </Col>
 
-        <Col span={10}>
+        <Col span={10} style={{ marginLeft: '320px' }}>
           <ButtonInputSearch
             size="large"
             textButton="Search"

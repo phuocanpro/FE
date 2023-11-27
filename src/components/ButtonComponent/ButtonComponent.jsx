@@ -15,7 +15,7 @@ const ButtonComponent = ({
       // icon={<SearchOutlined style={{ color: { colorButton } }} />}
       style={{
         ...styleButton,
-        background: disabled ? "#ccc" : styleButton.backgroundColor,
+      
       }}
       {...rests}
     >
