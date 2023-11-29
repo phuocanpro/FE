@@ -8,12 +8,9 @@ import SignUpPage from "../pages/SignUpPage/SignUpPage.jsx";
 import GameDetailsPage from "../pages/GameDetailsPage/GameDetailsPage.jsx";
 import ProfilePage from "../pages/Profile/ProfilePage.jsx";
 
+import AdminPage from "../pages/AdminPage/AdminPage.jsx";
 
-
-// import 
-
-
-
+// import
 
 export const routes = [
   {
@@ -57,7 +54,13 @@ export const routes = [
     page: ProfilePage,
     isShowHeader: true,
   },
- 
+
+  {
+    path: "/system/admin",
+    page: AdminPage,
+    isShowHeader: false,
+    isPrivate: true,
+  },
 
   {
     path: "*",

@@ -72,7 +72,6 @@ const steamStyle = {
 
 const CardComponent = (props) => {
   const {
-    key,
     image,
     name,
     price,

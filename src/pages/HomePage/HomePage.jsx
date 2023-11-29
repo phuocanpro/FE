@@ -78,7 +78,6 @@ const HomePage = () => {
                     .filter((game) => game.type === type)
                     .map((game) => (
                       <CardComponent
-                        key={game._id}
                         image={game.image}
                         name={game.name}
                         price={game.price}
