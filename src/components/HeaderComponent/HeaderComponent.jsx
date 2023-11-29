@@ -39,7 +39,7 @@ import Loading from "../LoadingComponent/Loading";
 //   color: "red",
 // };
 
-const HeaderComponent = () => {
+const HeaderComponent = ({ isHiddenSearch = false,  isHiddenCart = false}) => {
   const styleLi = {
     background: "hsla(240, 63%, 13%, 1)",
     marginRight: "20px",
@@ -75,10 +75,16 @@ const HeaderComponent = () => {
   }, [user?.userName, user?.avatar]);
   const content = (
     <div>
-      <WrapperContentPopup onClick={handleLogout}>Logout</WrapperContentPopup>
+      
       <WrapperContentPopup onClick={() => navigate("/profile-user")}>
         Infor user
       </WrapperContentPopup>
+      {user?.isAdmin && (
+          <WrapperContentPopup onClick={() => navigate("/system/admin")}>
+          Manager System
+          </WrapperContentPopup>
+      )}
+     <WrapperContentPopup onClick={handleLogout}>Logout</WrapperContentPopup>
     </div>
   );
 
@@ -91,7 +97,7 @@ const HeaderComponent = () => {
         justifyContent: "center",
       }}
     >
-      <WrapperHeader>
+      <WrapperHeader style ={{justifyContent: isHiddenSearch && isHiddenCart ? 'space-between' :'unset'}}>
         <Col span={3}>
           <img
             src={logo}
@@ -104,21 +110,24 @@ const HeaderComponent = () => {
             alt="logo"
           ></img>
         </Col>
-
-        <Col span={10} style={{ marginLeft: '320px' }}>
+            {!isHiddenSearch && (
+          <Col span={10} style={{ marginLeft: '320px' }}>
           <ButtonInputSearch
             size="large"
             textButton="Search"
             placeholder="Input search text"
             //    onSearch={onSearch}
           />
-        </Col>
+          </Col>
+  )}
+
+       
         <Col
           span={6}
           style={{ display: "flex", gap: "54px", alignItems: "center" }}
         >
           <Loading isLoading={loading}>
-            <WrapperHeaderAccount>
+            <WrapperHeaderAccount >
               {userAvatar ? (
                 <img
                   src={userAvatar}
@@ -157,7 +166,9 @@ const HeaderComponent = () => {
               )}
             </WrapperHeaderAccount>
           </Loading>
-          <div>
+
+          {!isHiddenCart && (
+            <div>
             <Badge count={4} size="small">
               <ShoppingCartOutlined
                 style={{ fontSize: "30px", color: "#fff" }}
@@ -165,6 +176,8 @@ const HeaderComponent = () => {
             </Badge>
             <WrapperTextHeaderSmall>Cart</WrapperTextHeaderSmall>
           </div>
+          ) }
+          
         </Col>
       </WrapperHeader>
     </div>

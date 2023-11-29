@@ -106,7 +106,12 @@ const SignUpPage = () => {
             <h1>SIGN-UP</h1>
           </div>
 
-          <InputForm style={{ marginBottom: "10px" }} placeholder="UserName" />
+          <InputForm
+            style={{ marginBottom: "10px" }}
+            placeholder="UserName"
+            value={userName}
+            onChange={handleOnchangeUserName}
+          />
 
           <InputForm
             style={{ marginBottom: "10px" }}
@@ -138,6 +143,28 @@ const SignUpPage = () => {
             />
           </div>
 
+          <div style={{ position: "relative" }}>
+            <span
+              onClick={() => {
+                setIsShowConfirmPassword(!isShowConfirmPassword);
+              }}
+              style={{
+                zIndex: 10,
+                position: "absolute",
+                top: "4px",
+                right: "8px",
+              }}
+            >
+              {isShowConfirmPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
+            </span>
+            <InputForm
+              style={{ marginBottom: "10px" }}
+              placeholder="Password"
+              type={isShowConfirmPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={handleOnchangeConfirmPassword}
+            />
+          </div>
           {data?.status === "ERR" && (
             <span style={{ color: "red" }}>{data?.message}</span>
           )}

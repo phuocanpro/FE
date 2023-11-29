@@ -21,6 +21,7 @@ import * as GameService from "../../services/GameService.js";
 const HomePage = () => {
   const fetchGameAll = async () => {
     const res = await GameService.getAllGame();
+    console.log("res",res);
     return res;
   };
   fetchGameAll();

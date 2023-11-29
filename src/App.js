@@ -31,6 +31,7 @@ function App() {
     if (decoded?.id) {
       handleGetDetailsUser(decoded?.id, storageData);
     }
+    setIsLoading(false);
   }, []);
   const handleDecoded = () => {
     let storageData = localStorage.getItem("access_token");
@@ -59,11 +60,11 @@ function App() {
   const handleGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token);
     dispatch(updateUser({ ...res?.data, access_token: token }));
-    setIsLoading(false);
+   
   };
   return (
     <div>
-      <Loading isLoading={isLoading}>
+      {/* <Loading isLoading={isLoading}> */}
         <Router>
           <Routes>
             {routes.map((route) => {
@@ -72,8 +73,8 @@ function App() {
               const Layout = route.isShowHeader ? DefaultComponent : Fragment;
               return (
                 <Route
-                  key={route.path}
-                  path={isCheckAuth ? route.path : ""}
+                  path={route.path}
+                  key={isCheckAuth && route.path }
                   element={
                     <Layout>
                       <Page />
@@ -84,7 +85,7 @@ function App() {
             })}
           </Routes>
         </Router>
-      </Loading>
+      {/* </Loading> */}
     </div>
   );
 }
