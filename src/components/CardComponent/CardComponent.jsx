@@ -102,7 +102,7 @@ const CardComponent = (props) => {
       <div style={discountStyle}>-{discount}</div>
       <div style={titleStyle}>{name}</div>
       <div style={priceStyle}>
-        <del>${price}</del>
+        <del>${price.toLocaleString()}</del>
         <span
           style={{ color: "#D3D3D3", marginLeft: "8px", fontStyle: "bold  " }}
         >

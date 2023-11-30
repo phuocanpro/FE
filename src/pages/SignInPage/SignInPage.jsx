@@ -101,7 +101,7 @@ const SignInPage = () => {
       <div
         style={{
           width: "800px",
-          height: "445px",
+          height: "450px",
           borderRadius: "6px",
           backgroundColor: "#fff",
           display: "flex",

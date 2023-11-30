@@ -95,7 +95,7 @@ const SignUpPage = () => {
       <div
         style={{
           width: "800px",
-          height: "445px",
+          height: "470px",
           borderRadius: "6px",
           backgroundColor: "#fff",
           display: "flex",
@@ -106,7 +106,12 @@ const SignUpPage = () => {
             <h1>SIGN-UP</h1>
           </div>
 
-          <InputForm style={{ marginBottom: "10px" }} placeholder="UserName" />
+          <InputForm
+            style={{ marginBottom: "10px" }}
+            placeholder="UserName"
+            value={userName}
+            onChange={handleOnchangeUserName}
+          />
 
           <InputForm
             style={{ marginBottom: "10px" }}
@@ -135,6 +140,29 @@ const SignUpPage = () => {
               type={isShowPassword ? "text" : "password"}
               value={password}
               onChange={handleOnchangePassword}
+            />
+          </div>
+
+          <div style={{ position: "relative" }}>
+            <span
+              onClick={() => {
+                setIsShowConfirmPassword(!isShowConfirmPassword);
+              }}
+              style={{
+                zIndex: 10,
+                position: "absolute",
+                top: "4px",
+                right: "8px",
+              }}
+            >
+              {isShowConfirmPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
+            </span>
+            <InputForm
+              style={{ marginBottom: "10px" }}
+              placeholder="Confirm Password"
+              type={isShowConfirmPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={handleOnchangeConfirmPassword}
             />
           </div>
 

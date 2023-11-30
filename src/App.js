@@ -63,28 +63,26 @@ function App() {
   };
   return (
     <div>
-      <Loading isLoading={isLoading}>
-        <Router>
-          <Routes>
-            {routes.map((route) => {
-              const Page = route.page;
-              const isCheckAuth = !route.isPrivate || user.isAdmin;
-              const Layout = route.isShowHeader ? DefaultComponent : Fragment;
-              return (
-                <Route
-                  key={route.path}
-                  path={isCheckAuth ? route.path : ""}
-                  element={
-                    <Layout>
-                      <Page />
-                    </Layout>
-                  }
-                />
-              );
-            })}
-          </Routes>
-        </Router>
-      </Loading>
+      <Router>
+        <Routes>
+          {routes.map((route) => {
+            const Page = route.page;
+            const isCheckAuth = !route.isPrivate || user.isAdmin;
+            const Layout = route.isShowHeader ? DefaultComponent : Fragment;
+            return (
+              <Route
+                path={route.path}
+                key={isCheckAuth && route.path}
+                element={
+                  <Layout>
+                    <Page />
+                  </Layout>
+                }
+              />
+            );
+          })}
+        </Routes>
+      </Router>
     </div>
   );
 }
