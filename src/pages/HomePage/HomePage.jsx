@@ -59,8 +59,8 @@ const HomePage = () => {
                   color: "hsla(0, 0%, 100%, 1)",
                   fontSize: "1.5rem",
                   fontWeight: "600",
-                  marginTop: "20px",
                   padding: "10px",
+
                 }}
                 key={type}
               >
@@ -72,7 +72,7 @@ const HomePage = () => {
                     width: "100%",
                     display: "flex",
                     justifyContent: "center",
-                    background: "hsla(240, 63%, 13%, 1)",
+                    
                   }}
                 >
                   {games?.data
@@ -94,19 +94,24 @@ const HomePage = () => {
               </WrapperProducts>
             </div>
           ))}
-
-          <WrapperButtonMore
+<div style={{textAlign: 'center'}}>
+<WrapperButtonMore
             textButton="View More"
             type="outline"
             styleButton={{
               border: "1px solid rgb(11,116,229)",
               color: "#fff",
-              width: "150px",
+              width: "85%",
               height: "38px",
               borderRadius: "4px",
+              background: "hsla(240, 63%, 13%, 1)",
+               display: 'block',
+               margin: 'auto',
             }}
             styleTextButton={{ fontWeight: 500 }}
           />
+</div>
+        
         </div>
       </div>
     </>

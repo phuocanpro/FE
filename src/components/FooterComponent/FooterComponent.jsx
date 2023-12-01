@@ -91,7 +91,7 @@ const FooterComponent = () => {
       style={{
         display: "flex",
         justifyContent: "center",
-        marginTop: "800px",
+        marginTop: "1100px",
         marginBottom:'50px',
       }}
     >

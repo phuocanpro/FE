@@ -3,7 +3,7 @@ import g1 from "../../assets/images/pubg.png";
 
 const cardStyle = {
   width: "280px",
-  height: "478px",
+  height: "440px",
   margin: "10px",
   border: "1px solid white",
   borderRadius: "10px",
@@ -22,7 +22,7 @@ const imageStyle = {
 const titleStyle = {
   fontSize: "20px",
   fontWeight: "bold",
-  padding: "10px",
+  padding: "5px",
   textAlign: "center",
   color: "#fff",
 };
