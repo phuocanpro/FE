@@ -165,14 +165,13 @@ const SignUpPage = () => {
               onChange={handleOnchangeConfirmPassword}
             />
           </div>
-
           {data?.status === "ERR" && (
             <span style={{ color: "red" }}>{data?.message}</span>
           )}
           <ButtonComponent
-            // disabled={
-            //   !email.length || !password.length || !confirmPassword.length
-            // }
+            disabled={
+              !email.length || !password.length || !confirmPassword.length
+            }
             onClick={handleSignup}
             size={40}
             styleButton={{

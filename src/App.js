@@ -31,6 +31,7 @@ function App() {
     if (decoded?.id) {
       handleGetDetailsUser(decoded?.id, storageData);
     }
+    setIsLoading(false);
   }, []);
   const handleDecoded = () => {
     let storageData = localStorage.getItem("access_token");
@@ -59,7 +60,6 @@ function App() {
   const handleGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token);
     dispatch(updateUser({ ...res?.data, access_token: token }));
-    setIsLoading(false);
   };
   return (
     <div>

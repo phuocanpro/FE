@@ -14,6 +14,7 @@ const HomePage = () => {
   const fetchGameAll = async () => {
     // console.log("context", context);
     const res = await GameService.getAllGame();
+    console.log("res",res);
     return res;
   };
   fetchGameAll();
