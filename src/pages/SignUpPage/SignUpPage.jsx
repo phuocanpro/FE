@@ -95,7 +95,7 @@ const SignUpPage = () => {
       <div
         style={{
           width: "800px",
-          height: "470px",
+          height: "480px",
           borderRadius: "6px",
           backgroundColor: "#fff",
           display: "flex",

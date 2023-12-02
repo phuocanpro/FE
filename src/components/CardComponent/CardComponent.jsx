@@ -3,7 +3,7 @@ import g1 from "../../assets/images/pubg.png";
 
 const cardStyle = {
   width: "280px",
-  height: "478px",
+  height: "440px",
   margin: "10px",
   border: "1px solid white",
   borderRadius: "10px",
@@ -22,7 +22,7 @@ const imageStyle = {
 const titleStyle = {
   fontSize: "20px",
   fontWeight: "bold",
-  padding: "10px",
+  padding: "5px",
   textAlign: "center",
   color: "#fff",
 };
@@ -98,7 +98,7 @@ const CardComponent = (props) => {
   // Render the component
   return (
     <div style={cardStyle}>
-      <img src={g1} alt="Pugb" style={imageStyle} />
+      <img src={image} alt={name} style={imageStyle} />
       <div style={discountStyle}>-{discount}</div>
       <div style={titleStyle}>{name}</div>
       <div style={priceStyle}>
