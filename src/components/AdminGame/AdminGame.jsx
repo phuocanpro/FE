@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { WrapperHeader, WrapperUploadFile } from "./style";
 import { Button, Form, Modal } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import TableComponent from "../TableComponent/TableComponent";
 
 import InputComponent from "../InputComponent/InputComponent";
@@ -11,7 +11,7 @@ import { useMutationHooks } from "../../hooks/userMutationHook.js";
 import Loading from "../LoadingComponent/Loading";
 import * as message from "../../components/Message/Message.js";
 import { useQuery } from "@tanstack/react-query";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, Highlighter } from "@ant-design/icons";
 import DrawerComponent from "../DrawerComponent/DrawerComponent";
 import { useSelector } from "react-redux";
 import ModalComponent from "../ModalComponent/ModalComponent";
@@ -145,19 +145,158 @@ const AdminGame = () => {
       </div>
     );
   };
+
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
+
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+  };
+
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <InputComponent
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: "block",
+          }}
+        />
+
+        <Button
+          type="primary"
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          icon={<SearchOutlined />}
+          size="small"
+          style={{
+            width: 90,
+          }}
+        >
+          Search
+        </Button>
+        <Button
+          onClick={() => clearFilters && handleReset(clearFilters)}
+          size="small"
+          style={{
+            width: 90,
+          }}
+        >
+          Reset
+        </Button>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? "#1890ff" : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    // render: (text) =>
+    //   searchedColumn === dataIndex ? (
+    // <Highlighter
+    //   highlightStyle={{
+    //     backgroundColor: "#ffc069",
+    //     padding: 0,
+    //   }}
+    //   searchWords={[searchText]}
+    //   autoEscape
+    //   textToHighlight={text ? text.toString() : ""}
+    // />
+    // ) : (
+    //     text
+    //   ),
+  });
+
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
-      render: (text) => <a>{text}</a>,
+      sorter: (a, b) => a.name.length - b.name.length,
+      ...getColumnSearchProps("name"),
     },
     {
       title: "Price",
       dataIndex: "price",
+      sorter: (a, b) => a.price - b.price,
+      filters: [
+        {
+          text: ">= 50",
+          value: ">=",
+        },
+        {
+          text: "< 50",
+          value: "<=",
+        },
+      ],
+
+      onFilter: (value, record) => {
+        if (value === ">=") {
+          return record.price >= 50;
+        } else {
+          return record.price < 50;
+        }
+      },
     },
     {
       title: "Rating",
       dataIndex: "rating",
+      sorter: (a, b) => a.rating - b.rating,
+      filters: [
+        {
+          text: "> 4.5",
+          value: ">",
+        },
+        {
+          text: "3.0 - 4.5",
+          value: "-",
+        },
+        {
+          text: "< 3.0",
+          value: "<",
+        },
+      ],
+
+      onFilter: (value, record) => {
+        if (value === ">") {
+          return record.rating > 4.5;
+        } else if (value === "<") {
+          return record.rating < 3.0;
+        } else {
+          return record.rating >= 3.0 && record.rating <= 4.5;
+        }
+      },
     },
     {
       title: "Type",
