@@ -14,11 +14,13 @@ import { useQuery } from "@tanstack/react-query";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import DrawerComponent from "../DrawerComponent/DrawerComponent";
 import { useSelector } from "react-redux";
+import ModalComponent from "../ModalComponent/ModalComponent";
 const AdminGame = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [rowSelected, setRowSelected] = useState("");
   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
+  const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const user = useSelector((state) => state?.user);
 
   const [stateGame, setStateGame] = useState({
@@ -49,20 +51,48 @@ const AdminGame = () => {
   const mutation = useMutationHooks((data) => GameService.createGame(data));
   const { data, isLoading, isSuccess, isError } = mutation;
 
+  const getAllGames = async () => {
+    const res = await GameService.getAllGame();
+    return res;
+  };
+  const queryGame = useQuery({
+    queryKey: ["games"],
+    queryFn: getAllGames,
+  });
+
+  const { isLoading: isLoadingGames, data: games } = queryGame;
   const onUpdateGame = () => {
-    mutationUpdate.mutate({
-      id: rowSelected,
-      token: user?.access_token,
-      stateGameDetails,
-    });
-    console.log("stateGameDetails", stateGameDetails);
+    mutationUpdate.mutate(
+      {
+        id: rowSelected,
+        token: user?.access_token,
+        ...stateGameDetails,
+      },
+      {
+        onSettled: () => {
+          queryGame.refetch();
+        },
+      }
+    );
   };
 
-  const mutationUpdate = useMutationHooks(async (data) => {
-    const { id, token, ...rests } = data;
-    const res = await GameService.updateGame(id, token, rests);
+  const mutationDelete = useMutationHooks(async (data) => {
+    const { id, token } = data;
+    const res = await GameService.deleteGame(id, token);
     return res;
   });
+  const mutationUpdate = useMutationHooks(async (data) => {
+    const { id, token, ...rests } = data;
+    const res = await GameService.updateGame(id, token, { ...rests });
+    return res;
+  });
+
+  const {
+    data: dataDeleted,
+    isLoading: isLoadingDeleted,
+    isSuccess: isSuccessDeleted,
+    isError: isErrorDeleted,
+  } = mutationDelete;
 
   const {
     data: dataUpdated,
@@ -70,13 +100,7 @@ const AdminGame = () => {
     isSuccess: isSuccessUpdated,
     isError: isErrorUpdated,
   } = mutationUpdate;
-
   console.log("dataUpdated", dataUpdated);
-
-  const getAllGames = async () => {
-    const res = await GameService.getAllGame();
-    return res;
-  };
 
   const fetchGetDetailsGame = async () => {
     const res = await GameService.getDetailsGame(rowSelected);
@@ -101,6 +125,7 @@ const AdminGame = () => {
 
   useEffect(() => {
     if (rowSelected) {
+      setIsLoadingUpdate(true);
       fetchGetDetailsGame(rowSelected);
     }
     // setIsOpenDrawer(true);
@@ -111,6 +136,7 @@ const AdminGame = () => {
       <div>
         <DeleteOutlined
           style={{ color: "red", fontSize: "30px", cursor: "pointer" }}
+          onClick={() => setIsModalOpenDelete(true)}
         />
         <EditOutlined
           style={{ color: "orange", fontSize: "30px", cursor: "pointer" }}
@@ -144,25 +170,11 @@ const AdminGame = () => {
     },
   ];
 
-  const { isLoading: isLoadingGames, data: games } = useQuery({
-    queryKey: ["games"],
-    queryFn: getAllGames,
-  });
-
   const dataTable =
     games?.data?.length &&
     games?.data?.map((game) => {
       return { ...game, key: game._id };
     });
-
-  useEffect(() => {
-    if (isSuccess && data?.status === "OK") {
-      message.success();
-      handleCancel();
-    } else if (isError) {
-      message.error();
-    }
-  }, [isSuccess, isError]);
 
   const handleCloseDrawer = () => {
     setIsOpenDrawer(false);
@@ -181,6 +193,15 @@ const AdminGame = () => {
   };
 
   useEffect(() => {
+    if (isSuccess && data?.status === "OK") {
+      message.success();
+      handleCancel();
+    } else if (isError) {
+      message.error();
+    }
+  }, [isSuccess, isError]);
+
+  useEffect(() => {
     if (isSuccessUpdated && dataUpdated?.status === "OK") {
       message.success();
       handleCloseDrawer();
@@ -189,11 +210,16 @@ const AdminGame = () => {
     }
   }, [isSuccessUpdated, isErrorUpdated]);
 
-  const handleDetailsGames = () => {
-    if (rowSelected) {
-      // setIsLoadingUpdate(true);
-      fetchGetDetailsGame(rowSelected);
+  useEffect(() => {
+    if (isSuccessDeleted && dataDeleted?.status === "OK") {
+      message.success();
+      handleCancelDelete();
+    } else if (isErrorDeleted) {
+      message.error();
     }
+  }, [isSuccessDeleted, isErrorDeleted]);
+
+  const handleDetailsGames = () => {
     setIsOpenDrawer(true);
   };
 
@@ -212,9 +238,26 @@ const AdminGame = () => {
     });
     form.resetFields();
   };
+  const handleCancelDelete = () => {
+    setIsModalOpenDelete(false);
+  };
 
+  const handleDeleteGame = () => {
+    mutationDelete.mutate(
+      { id: rowSelected, token: user?.access_token },
+      {
+        onSettled: () => {
+          queryGame.refetch();
+        },
+      }
+    );
+  };
   const onFinish = () => {
-    mutation.mutate(stateGame);
+    mutation.mutate(stateGame, {
+      onSettled: () => {
+        queryGame.refetch();
+      },
+    });
   };
 
   const handleOnchange = (e) => {
@@ -288,7 +331,7 @@ const AdminGame = () => {
           }}
         />
       </div>
-      <Modal
+      <ModalComponent
         title="Add New Game"
         open={isModalOpen}
         onCancel={handleCancel}
@@ -422,7 +465,7 @@ const AdminGame = () => {
             </Button>
           </Form.Item>
         </Form>
-      </Modal>
+      </ModalComponent>
       <DrawerComponent
         title="Details Game"
         isOpen={isOpenDrawer}
@@ -558,6 +601,15 @@ const AdminGame = () => {
           </Form.Item>
         </Form>
       </DrawerComponent>
+
+      <ModalComponent
+        title="Delete Game"
+        open={isModalOpenDelete}
+        onCancel={handleCancelDelete}
+        onOk={handleDeleteGame}
+      >
+        <div>Are you sure delete this game?</div>
+      </ModalComponent>
     </div>
   );
 };
