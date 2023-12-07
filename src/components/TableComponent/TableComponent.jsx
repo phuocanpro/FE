@@ -1,7 +1,6 @@
-import { Divider, Radio, Table } from "antd";
+import { Table } from "antd";
 import React, { useState } from "react";
 import Loading from "../LoadingComponent/Loading";
-
 const TableComponent = (props) => {
   const {
     selectionType = "checkbox",
@@ -10,32 +9,47 @@ const TableComponent = (props) => {
     columns = [],
   } = props;
 
+  const [rowSelectedKeys, setRowSelectedKeys] = useState([]);
   // rowSelection object indicates the need for row selection
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
+      setRowSelectedKeys(selectedRowKeys);
     },
-    getCheckboxProps: (record) => ({
-      disabled: record.name === "Disabled User",
-      // Column configuration not to be checked
-      name: record.name,
-    }),
+    // getCheckboxProps: (record) => ({
+    //   disabled: record.name === "Disabled User",
+    //   // Column configuration not to be checked
+    //   name: record.name,
+    // }),
   };
+  const handleDeleteAll = () => {};
   console.log("data", data);
+
   return (
-    <Table
-      rowSelection={{
-        type: selectionType,
-        ...rowSelection,
-      }}
-      columns={columns}
-      dataSource={data}
-      {...props}
-    />
+    <>
+      {rowSelectedKeys.length > 0 && (
+        <div
+          style={{
+            color: "#fff",
+            fontWeight: "bold",
+            padding: "10px",
+            cursor: "pointer",
+          }}
+          onClick={handleDeleteAll}
+        >
+          Delete All
+        </div>
+      )}
+
+      <Table
+        rowSelection={{
+          type: selectionType,
+          ...rowSelection,
+        }}
+        columns={columns}
+        dataSource={data}
+        {...props}
+      />
+    </>
   );
 };
 

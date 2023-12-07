@@ -471,6 +471,7 @@ const AdminGame = () => {
         />
       </div>
       <ModalComponent
+        forceRender
         title="Add New Game"
         open={isModalOpen}
         onCancel={handleCancel}
@@ -484,12 +485,12 @@ const AdminGame = () => {
           style={{ maxWidth: 600 }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
-          autoComplete="on"
+          autoComplete="off"
           form={form}
         >
           <Form.Item
             label="Name"
-            name="Name"
+            name="name"
             rules={[{ required: true, message: "Please input name game!" }]}
           >
             <InputComponent
@@ -501,7 +502,7 @@ const AdminGame = () => {
 
           <Form.Item
             label="Type"
-            name="Type"
+            name="type"
             rules={[{ required: true, message: "Please input type game!" }]}
           >
             <InputComponent
@@ -512,7 +513,7 @@ const AdminGame = () => {
           </Form.Item>
           <Form.Item
             label="Price"
-            name="Price"
+            name="price"
             rules={[{ required: true, message: "Please input price game!" }]}
           >
             <InputComponent
@@ -523,7 +524,7 @@ const AdminGame = () => {
           </Form.Item>
           <Form.Item
             label="Platform"
-            name="Platform"
+            name="platform"
             rules={[{ required: true, message: "Please input platform game!" }]}
           >
             <InputComponent
@@ -534,7 +535,7 @@ const AdminGame = () => {
           </Form.Item>
           <Form.Item
             label="Rating"
-            name="Rating"
+            name="rating"
             rules={[{ required: true, message: "Please input rating game!" }]}
           >
             <InputComponent
@@ -545,7 +546,7 @@ const AdminGame = () => {
           </Form.Item>
           <Form.Item
             label="Discount"
-            name="Discount"
+            name="discount"
             rules={[{ required: true, message: "Please input discount!" }]}
           >
             <InputComponent
@@ -556,7 +557,7 @@ const AdminGame = () => {
           </Form.Item>
           <Form.Item
             label="Selled"
-            name="Selled"
+            name="selled"
             rules={[{ required: true, message: "Please input selled!" }]}
           >
             <InputComponent
@@ -567,7 +568,7 @@ const AdminGame = () => {
           </Form.Item>
           <Form.Item
             label="Description"
-            name="Description"
+            name="description"
             rules={[{ required: true, message: "Please input description!" }]}
           >
             <InputComponent
@@ -578,7 +579,7 @@ const AdminGame = () => {
           </Form.Item>
           <Form.Item
             label="Image"
-            name="Image"
+            name="image"
             rules={[{ required: true, message: "Please input image!" }]}
           >
             <WrapperUploadFile onChange={handleOnchangeAvatar} maxCount={1}>

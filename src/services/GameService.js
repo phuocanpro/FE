@@ -42,3 +42,16 @@ export const deleteGame = async (id, access_token) => {
   );
   return res.data;
 };
+export const deleteManyGame = async (data, access_token) => {
+  const res = await axiosJWT.delete(
+    `${process.env.REACT_APP_API_URL}/game/delete-many`,
+    data,
+    {
+      // gui/luu access_token vao headers
+      headers: {
+        token: `Bearer ${access_token}`,
+      },
+    }
+  );
+  return res.data;
+};
