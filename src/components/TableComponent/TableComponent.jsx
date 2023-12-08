@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Loading from "../LoadingComponent/Loading";
 const TableComponent = (props) => {
   const {
+    handleDeleteMany,
     selectionType = "checkbox",
     data = [],
     isLoading = false,
@@ -21,8 +22,9 @@ const TableComponent = (props) => {
     //   name: record.name,
     // }),
   };
-  const handleDeleteAll = () => {};
-  console.log("data", data);
+  const handleDeleteAll = () => {
+    handleDeleteMany(rowSelectedKeys);
+  };
 
   return (
     <>

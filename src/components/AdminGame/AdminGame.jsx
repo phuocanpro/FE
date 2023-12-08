@@ -81,18 +81,41 @@ const AdminGame = () => {
     const res = await GameService.deleteGame(id, token);
     return res;
   });
+
+  const mutationDeleteMany = useMutationHooks(async (data) => {
+    const { token, ...ids } = data;
+    const res = await GameService.deleteManyGame(ids, token);
+    return res;
+  });
+
   const mutationUpdate = useMutationHooks(async (data) => {
     const { id, token, ...rests } = data;
     const res = await GameService.updateGame(id, token, { ...rests });
     return res;
   });
 
+  const handleDeleteManyGames = (ids) => {
+    mutationDeleteMany.mutate(
+      { ids: ids, token: user?.access_token },
+      {
+        onSettled: () => {
+          queryGame.refetch();
+        },
+      }
+    );
+  };
   const {
     data: dataDeleted,
     isLoading: isLoadingDeleted,
     isSuccess: isSuccessDeleted,
     isError: isErrorDeleted,
   } = mutationDelete;
+  const {
+    data: dataDeletedMany,
+    isLoading: isLoadingDeletedMany,
+    isSuccess: isSuccessDeletedMany,
+    isError: isErrorDeletedMany,
+  } = mutationDeleteMany;
 
   const {
     data: dataUpdated,
@@ -100,7 +123,6 @@ const AdminGame = () => {
     isSuccess: isSuccessUpdated,
     isError: isErrorUpdated,
   } = mutationUpdate;
-  console.log("dataUpdated", dataUpdated);
 
   const fetchGetDetailsGame = async () => {
     const res = await GameService.getDetailsGame(rowSelected);
@@ -124,12 +146,12 @@ const AdminGame = () => {
   }, [form, stateGameDetails]);
 
   useEffect(() => {
-    if (rowSelected) {
+    if (rowSelected && isOpenDrawer) {
       setIsLoadingUpdate(true);
       fetchGetDetailsGame(rowSelected);
     }
     // setIsOpenDrawer(true);
-  }, [rowSelected]);
+  }, [rowSelected, isOpenDrawer]);
 
   const renderAction = () => {
     return (
@@ -357,7 +379,13 @@ const AdminGame = () => {
       message.error();
     }
   }, [isSuccessDeleted, isErrorDeleted]);
-
+  useEffect(() => {
+    if (isSuccessDeletedMany && dataDeletedMany?.status === "OK") {
+      message.success();
+    } else if (isErrorDeletedMany) {
+      message.error();
+    }
+  }, [isSuccessDeletedMany, isErrorDeletedMany]);
   const handleDetailsGames = () => {
     setIsOpenDrawer(true);
   };
@@ -458,6 +486,7 @@ const AdminGame = () => {
       </div>
       <div style={{ marginTop: "20px" }}>
         <TableComponent
+          handleDeleteMany={handleDeleteManyGames}
           columns={columns}
           isLoading={isLoadingGames}
           data={dataTable}
