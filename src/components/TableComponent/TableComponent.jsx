@@ -1,6 +1,7 @@
 import { Table } from "antd";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Loading from "../LoadingComponent/Loading";
+import { Excel } from "antd-table-saveas-excel";
 const TableComponent = (props) => {
   const {
     handleDeleteMany,
@@ -11,21 +12,31 @@ const TableComponent = (props) => {
   } = props;
 
   const [rowSelectedKeys, setRowSelectedKeys] = useState([]);
+  const newColumnExport = useMemo(() => {
+    const filter = columns?.filter((col) => col.dataIndex != "action");
+    return filter;
+  }, [columns]);
+  console.log("newColumnExport", newColumnExport);
   // rowSelection object indicates the need for row selection
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       setRowSelectedKeys(selectedRowKeys);
     },
-    // getCheckboxProps: (record) => ({
-    //   disabled: record.name === "Disabled User",
-    //   // Column configuration not to be checked
-    //   name: record.name,
-    // }),
   };
   const handleDeleteAll = () => {
     handleDeleteMany(rowSelectedKeys);
   };
 
+  const exportExcel = () => {
+    const excel = new Excel();
+    excel
+      .addSheet("test")
+      .addColumns(newColumnExport)
+      .addDataSource(data, {
+        str2Percent: true,
+      })
+      .saveAs("Excel.xlsx");
+  };
   return (
     <>
       {rowSelectedKeys.length > 0 && (
@@ -41,7 +52,7 @@ const TableComponent = (props) => {
           Delete All
         </div>
       )}
-
+      <button onClick={exportExcel}>Export Excel</button>
       <Table
         rowSelection={{
           type: selectionType,

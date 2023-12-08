@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { WrapperHeader } from "./style";
+import { WrapperHeader, WrapperUploadFile } from "./style";
 import { Button, Form, message } from "antd";
 import TableComponent from "../TableComponent/TableComponent";
 import { useSelector } from "react-redux";
@@ -14,6 +14,7 @@ import {
 import ModalComponent from "../ModalComponent/ModalComponent";
 import InputComponent from "../InputComponent/InputComponent";
 import DrawerComponent from "../DrawerComponent/DrawerComponent";
+import { getBase64 } from "../../utils";
 
 const AdminUser = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -23,15 +24,6 @@ const AdminUser = () => {
 
   const user = useSelector((state) => state?.user);
 
-  const [stateUser, setStateUser] = useState({
-    userName: "",
-    email: "",
-    password: "",
-    isAdmin: "",
-    phone: "",
-    address: "",
-    avatar: "",
-  });
   const [stateUserDetails, setStateUserDetails] = useState({
     userName: "",
     email: "",
@@ -43,9 +35,6 @@ const AdminUser = () => {
   });
 
   const [form] = Form.useForm();
-
-  const mutation = useMutationHooks((data) => UserService.signupUser(data));
-  const { data, isLoading, isSuccess, isError } = mutation;
 
   const getAllUsers = async () => {
     const res = await UserService.getAllUser(user?.access_token);
@@ -174,6 +163,7 @@ const AdminUser = () => {
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
+
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
@@ -313,15 +303,6 @@ const AdminUser = () => {
   };
 
   useEffect(() => {
-    if (isSuccess && data?.status === "OK") {
-      message.success();
-      handleCancel();
-    } else if (isError) {
-      message.error();
-    }
-  }, [isSuccess, isError]);
-
-  useEffect(() => {
     if (isSuccessUpdated && dataUpdated?.status === "OK") {
       message.success();
       handleCloseDrawer();
@@ -349,18 +330,17 @@ const AdminUser = () => {
   const handleDetailsUsers = () => {
     setIsOpenDrawer(true);
   };
+  const handleOnchangeAvatarDetails = async ({ fileList }) => {
+    const file = fileList[0];
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
 
-  const handleCancel = () => {
-    setStateUser({
-      userName: "",
-      email: "",
-      password: "",
-      isAdmin: "",
-      phone: "",
-      address: "",
-      avatar: "",
+    console.log("file", file.preview);
+    setStateUserDetails({
+      ...stateUserDetails,
+      avatar: file.preview,
     });
-    form.resetFields();
   };
   const handleCancelDelete = () => {
     setIsModalOpenDelete(false);
@@ -487,6 +467,31 @@ const AdminUser = () => {
             />
           </Form.Item>
 
+          <Form.Item
+            label="Avatar"
+            name="avatar"
+            rules={[{ required: true, message: "Please input avatar!" }]}
+          >
+            <WrapperUploadFile
+              onChange={handleOnchangeAvatarDetails}
+              maxCount={1}
+            >
+              <Button type="button">Select File</Button>
+              {stateUserDetails?.avatar && (
+                <img
+                  src={stateUserDetails?.avatar}
+                  style={{
+                    height: "60px",
+                    width: "60px",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                    marginLeft: "10px",
+                  }}
+                  alt="game"
+                />
+              )}
+            </WrapperUploadFile>
+          </Form.Item>
           <Form.Item wrapperCol={{ offset: 20, span: 16 }}>
             <Button type="primary" htmlType="submit">
               Submit
