@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import g1 from "../../assets/images/pubg.png";
 
 const cardStyle = {
@@ -81,6 +82,7 @@ const CardComponent = (props) => {
     platform,
     discount,
     selled,
+    id,
   } = props;
 
   // Calculate the final price after applying the discount
@@ -96,8 +98,12 @@ const CardComponent = (props) => {
   //   return a;
   // }
   // Render the component
+  const navigate = useNavigate();
+  const handleDetailsGame = (id) => {
+    navigate(`/game-details/${id}`);
+  };
   return (
-    <div style={cardStyle}>
+    <div style={cardStyle} onClick={() => handleDetailsGame(id)}>
       <img src={image} alt={name} style={imageStyle} />
       <div style={discountStyle}>-{discount}</div>
       <div style={titleStyle}>{name}</div>

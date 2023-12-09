@@ -80,6 +80,7 @@ const HomePage = () => {
                         description={game.description}
                         discount={game.discount}
                         selled={game.selled}
+                        id={game._id}
                       />
                     ))}
                 </div>
