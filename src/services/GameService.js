@@ -4,6 +4,13 @@ export const getAllGame = async () => {
   const res = await axios.get(`${process.env.REACT_APP_API_URL}/game/get-all`);
   return res.data;
 };
+export const getAllTypeGame = async () => {
+  const res = await axios.get(
+    `${process.env.REACT_APP_API_URL}/game/get-all-type`
+  );
+  return res.data;
+};
+
 export const createGame = async (data) => {
   const res = await axios.post(
     `${process.env.REACT_APP_API_URL}/game/create`,

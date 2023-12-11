@@ -18,10 +18,6 @@ import ButtonComponent from "../ButtonComponent/ButtonComponent";
 
 import { useNavigate, Link } from "react-router-dom";
 
-
-
-
-
 import { useDispatch, useSelector } from "react-redux";
 import * as UserService from "../../services/UserService.js";
 import { resetUser } from "../../redux/slides/userSlide.js";
@@ -39,7 +35,7 @@ import Loading from "../LoadingComponent/Loading";
 //   color: "red",
 // };
 
-const HeaderComponent = ({ isHiddenSearch = false,  isHiddenCart = false}) => {
+const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
   const styleLi = {
     background: "hsla(240, 63%, 13%, 1)",
     marginRight: "20px",
@@ -60,6 +56,7 @@ const HeaderComponent = ({ isHiddenSearch = false,  isHiddenCart = false}) => {
   const [userName, setUserName] = useState("");
   const [userAvatar, setUserAvatar] = useState("");
 
+  const order = useSelector((state) => state.order);
   const handleLogout = async () => {
     setLoading(true);
     await UserService.logoutUser();
@@ -75,16 +72,15 @@ const HeaderComponent = ({ isHiddenSearch = false,  isHiddenCart = false}) => {
   }, [user?.userName, user?.avatar]);
   const content = (
     <div>
-      
       <WrapperContentPopup onClick={() => navigate("/profile-user")}>
         Infor user
       </WrapperContentPopup>
       {user?.isAdmin && (
-          <WrapperContentPopup onClick={() => navigate("/system/admin")}>
+        <WrapperContentPopup onClick={() => navigate("/system/admin")}>
           Manager System
-          </WrapperContentPopup>
+        </WrapperContentPopup>
       )}
-     <WrapperContentPopup onClick={handleLogout}>Logout</WrapperContentPopup>
+      <WrapperContentPopup onClick={handleLogout}>Logout</WrapperContentPopup>
     </div>
   );
 
@@ -97,7 +93,12 @@ const HeaderComponent = ({ isHiddenSearch = false,  isHiddenCart = false}) => {
         justifyContent: "center",
       }}
     >
-      <WrapperHeader style ={{justifyContent: isHiddenSearch && isHiddenCart ? 'space-between' :'unset'}}>
+      <WrapperHeader
+        style={{
+          justifyContent:
+            isHiddenSearch && isHiddenCart ? "space-between" : "unset",
+        }}
+      >
         <Col span={3}>
           <img
             src={logo}
@@ -105,29 +106,31 @@ const HeaderComponent = ({ isHiddenSearch = false,  isHiddenCart = false}) => {
               display: "block",
               width: "100%",
               height: "100%",
-             
+              cursor: "pointer",
             }}
             alt="logo"
+            onClick={() => {
+              navigate("/");
+            }}
           ></img>
         </Col>
-            {!isHiddenSearch && (
-          <Col span={10} style={{ marginLeft: '320px' }}>
-          <ButtonInputSearch
-            size="large"
-            textButton="Search"
-            placeholder="Input search text"
-            //    onSearch={onSearch}
-          />
+        {!isHiddenSearch && (
+          <Col span={10} style={{ marginLeft: "320px" }}>
+            <ButtonInputSearch
+              size="large"
+              textButton="Search"
+              placeholder="Input search text"
+              //    onSearch={onSearch}
+            />
           </Col>
-  )}
+        )}
 
-       
         <Col
           span={6}
           style={{ display: "flex", gap: "54px", alignItems: "center" }}
         >
           <Loading isLoading={loading}>
-            <WrapperHeaderAccount >
+            <WrapperHeaderAccount>
               {userAvatar ? (
                 <img
                   src={userAvatar}
@@ -168,16 +171,18 @@ const HeaderComponent = ({ isHiddenSearch = false,  isHiddenCart = false}) => {
           </Loading>
 
           {!isHiddenCart && (
-            <div>
-            <Badge count={4} size="small">
-              <ShoppingCartOutlined
-                style={{ fontSize: "30px", color: "#fff" }}
-              />
-            </Badge>
-            <WrapperTextHeaderSmall>Cart</WrapperTextHeaderSmall>
-          </div>
-          ) }
-          
+            <div
+              onClick={() => navigate("/order")}
+              style={{ cursor: "pointer" }}
+            >
+              <Badge count={order?.orderItems?.length} size="small">
+                <ShoppingCartOutlined
+                  style={{ fontSize: "30px", color: "#fff" }}
+                />
+              </Badge>
+              <WrapperTextHeaderSmall>Cart</WrapperTextHeaderSmall>
+            </div>
+          )}
         </Col>
       </WrapperHeader>
     </div>

@@ -10,7 +10,7 @@ import {
   WrapperTextLight,
 } from "./style";
 import imageLogo from "../../assets/images/logo-signin.jfif";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as UserService from "../../services/UserService.js";
 import { useMutationHooks } from "../../hooks/userMutationHook";
 import Loading from "../../components/LoadingComponent/Loading.js";
@@ -22,7 +22,7 @@ import { updateUser } from "../../redux/slides/userSlide";
 const SignInPage = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const navigate = useNavigate();
-
+  const location = useLocation();
   const handleNavigateSignUp = () => {
     navigate("/sign-up");
   };
@@ -38,10 +38,14 @@ const SignInPage = () => {
   };
   const mutation = useMutationHooks((data) => UserService.loginUser(data));
   const { data, isLoading, isSuccess } = mutation;
-  console.log("data", data);
+  console.log("location", location);
   useEffect(() => {
     if (data?.status !== "ERR" && typeof data?.status !== "undefined") {
-      navigate("/");
+      if (location?.state) {
+        navigate(location?.state);
+      } else {
+        navigate("/");
+      }
       localStorage.setItem("access_token", JSON.stringify(data?.access_token));
       if (data?.access_token) {
         const decoded = jwtDecode(data?.access_token);

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { WrapperHeader, WrapperUploadFile } from "./style";
-import { Button, Form, Modal } from "antd";
+import { Button, Form, Modal, Select } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import TableComponent from "../TableComponent/TableComponent";
 
 import InputComponent from "../InputComponent/InputComponent";
-import { getBase64 } from "../../utils";
+import { getBase64, renderOptions } from "../../utils";
 import * as GameService from "../../services/GameService.js";
 import { useMutationHooks } from "../../hooks/userMutationHook.js";
 import Loading from "../LoadingComponent/Loading";
@@ -21,6 +21,7 @@ const AdminGame = () => {
   const [rowSelected, setRowSelected] = useState("");
   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
+  const [typeSelect, setTypeSelect] = useState("");
   const user = useSelector((state) => state?.user);
 
   const [stateGame, setStateGame] = useState({
@@ -33,6 +34,7 @@ const AdminGame = () => {
     discount: "",
     selled: "",
     image: "",
+    newType: "",
   });
   const [stateGameDetails, setStateGameDetails] = useState({
     name: "",
@@ -46,6 +48,7 @@ const AdminGame = () => {
     image: "",
   });
 
+  const [typeGames, setTypeGames] = useState({});
   const [form] = Form.useForm();
 
   const mutation = useMutationHooks((data) => GameService.createGame(data));
@@ -61,6 +64,23 @@ const AdminGame = () => {
   });
 
   const { isLoading: isLoadingGames, data: games } = queryGame;
+
+  const fetchAllTypeGame = async () => {
+    const res = await GameService.getAllTypeGame();
+    if (res?.status === "OK") {
+      setTypeGames(res?.data);
+    }
+    return res;
+  };
+  const typeGame = useQuery({
+    queryKey: ["type-game"],
+    queryFn: fetchAllTypeGame,
+  });
+
+  useEffect(() => {
+    fetchAllTypeGame();
+  }, []);
+
   const onUpdateGame = () => {
     mutationUpdate.mutate(
       {
@@ -420,7 +440,18 @@ const AdminGame = () => {
     );
   };
   const onFinish = () => {
-    mutation.mutate(stateGame, {
+    const params = {
+      name: stateGame.name,
+      type: stateGame.type === "add_type" ? stateGame.newType : stateGame.type,
+      price: stateGame.price,
+      platform: stateGame.platform,
+      rating: stateGame.rating,
+      description: stateGame.description,
+      discount: stateGame.discount,
+      selled: stateGame.selled,
+      image: stateGame.image,
+    };
+    mutation.mutate(params, {
       onSettled: () => {
         queryGame.refetch();
       },
@@ -431,6 +462,13 @@ const AdminGame = () => {
     setStateGame({
       ...stateGame,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleOnchangeSelect = (value) => {
+    setStateGame({
+      ...stateGame,
+      type: value,
     });
   };
 
@@ -534,12 +572,29 @@ const AdminGame = () => {
             name="type"
             rules={[{ required: true, message: "Please input type game!" }]}
           >
-            <InputComponent
-              value={stateGame.type}
-              onChange={handleOnchange}
+            <Select
+              // defaultValue="lucy"
+              // style={{ width: 120 }}
               name="type"
+              value={stateGame.type}
+              onChange={handleOnchangeSelect}
+              options={renderOptions(typeGame?.data?.data)}
             />
           </Form.Item>
+          {stateGame.type === "add_type" && (
+            <Form.Item
+              label="New type"
+              name="new_type"
+              rules={[{ required: true, message: "Please input type game!" }]}
+            >
+              <InputComponent
+                value={stateGame.newType}
+                onChange={handleOnchange}
+                name="newType"
+              />
+            </Form.Item>
+          )}
+
           <Form.Item
             label="Price"
             name="price"

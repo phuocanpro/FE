@@ -17,6 +17,9 @@ import { StarFilled, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
 import * as GameService from "../../services/GameService.js";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addOrderGame } from "../../redux/slides/orderSlide";
 const ProductDetailsComponent = ({ idGame }) => {
   const [stateGameDetails, setStateGameDetails] = useState({
     name: "",
@@ -30,6 +33,7 @@ const ProductDetailsComponent = ({ idGame }) => {
     image: "",
   });
 
+  const dispatch = useDispatch();
   const fetchGetDetailsGame = async () => {
     const res = await GameService.getDetailsGame(idGame);
     if (res?.data) {
@@ -52,7 +56,6 @@ const ProductDetailsComponent = ({ idGame }) => {
     }
   }, [idGame]);
 
-  const onChange = () => {};
   const paymentMethods = [
     {
       id: "visa",
@@ -79,6 +82,28 @@ const ProductDetailsComponent = ({ idGame }) => {
   const priceProduct = (price, discount) => {
     var result = price - price * (discount / 100);
     return result.toFixed(2);
+  };
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const location = useLocation(); // link hien tai
+  const handleAddOrderGame = () => {
+    if (!user?.id) {
+      navigate("/sign-in", { state: location?.pathname });
+    } else {
+      dispatch(
+        addOrderGame({
+          orderItem: {
+            name: stateGameDetails?.name,
+            image: stateGameDetails?.image,
+            price: priceProduct(
+              stateGameDetails.price,
+              stateGameDetails.discount
+            ),
+            game: idGame,
+          },
+        })
+      );
+    }
   };
   return (
     <div>
@@ -232,7 +257,8 @@ const ProductDetailsComponent = ({ idGame }) => {
                 border: "1px solid rgb(13,92,182)",
                 borderRadius: "4px",
               }}
-              textButton={"Pay Later"}
+              onClick={handleAddOrderGame}
+              textButton={"Add Cart"}
               styleTextButton={{ color: "rgb(13,92,182)", fontSize: "15px" }}
             ></ButtonComponent>
           </div>
