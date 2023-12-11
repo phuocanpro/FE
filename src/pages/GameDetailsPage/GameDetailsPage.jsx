@@ -6,13 +6,12 @@ const GameDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   return (
-    <div style={{ width: "100%", height: "100%" }}>
+    <div style={{ width: "100%", height: "100vh" }}>
       <div
         style={{
           width: "1270px",
           height: "100%",
           margin: "0 auto",
-          padding: "16px",
         }}
       >
         <h2 style={{ color: "#fff" }}>

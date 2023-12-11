@@ -85,19 +85,10 @@ const CardComponent = (props) => {
     id,
   } = props;
 
-  // Calculate the final price after applying the discount
-  // const finalPrice = props.price * (1 - props.discount / 100);
-
-  // Format the price to show two decimal places
-  // const formatPrice = (price) => {
-  //   return "$" + price.toFixed(2);
-  // };
-
-  // const priceDiscount = (price, discount){
-  //   const a = price - price*discount/100;
-  //   return a;
-  // }
-  // Render the component
+  const priceProduct = (price, discount) => {
+    var result = price - price * (discount / 100);
+    return result.toFixed(2);
+  };
   const navigate = useNavigate();
   const handleDetailsGame = (id) => {
     navigate(`/game-details/${id}`);
@@ -105,14 +96,14 @@ const CardComponent = (props) => {
   return (
     <div style={cardStyle} onClick={() => handleDetailsGame(id)}>
       <img src={image} alt={name} style={imageStyle} />
-      <div style={discountStyle}>-{discount}</div>
+      <div style={discountStyle}>-{discount}%</div>
       <div style={titleStyle}>{name}</div>
       <div style={priceStyle}>
-        <del>${price.toLocaleString()}</del>
+        <del>${price}</del>
         <span
           style={{ color: "#D3D3D3", marginLeft: "8px", fontStyle: "bold  " }}
         >
-          ${29.99}
+          ${priceProduct(price, discount)}
         </span>
       </div>
       <img

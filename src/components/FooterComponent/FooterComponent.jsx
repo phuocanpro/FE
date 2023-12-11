@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import StickyFooter from "react-sticky-footer";
 import { Badge, Col, Image } from "antd";
 import {
   WrapperFooter,
@@ -67,6 +69,13 @@ const FooterComponent = () => {
     maxWidth: "calc(90%)",
   };
 
+  const [email, setEmail] = useState("");
+  const handleOnchangeEmail = (value) => {
+    setEmail(value);
+  };
+
+  const navigate = useNavigate();
+
   const styleColButton = {
     position: "relative",
     backgroundImage:
@@ -93,6 +102,7 @@ const FooterComponent = () => {
         justifyContent: "center",
         marginTop: "1100px",
         marginBottom:'50px',
+        
       }}
     >
       <WrapperFooter>
@@ -109,7 +119,11 @@ const FooterComponent = () => {
           <div>
             <p style={styleColP}>JOIN OUR NEWSLETTER</p>
 
-            <InputForm style={styleColInput} placeholder="Your Email" />
+            <InputForm style={styleColInput}
+             placeholder="Your Email"
+             value={email}
+            onChange={handleOnchangeEmail}
+             />
             <ButtonComponent
               size="larger"
               styleButton={styleColButton}

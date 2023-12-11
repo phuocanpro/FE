@@ -46,7 +46,7 @@ console.log('keySelected',keySelected)
 
   return (
     <>
-    <HeaderComponent isHiddenCart isHiddenSearch/>
+    <HeaderComponent isHiddenCart isHiddenSearch isZoom/>
     
     <div style={{ display: 'flex',overflowX: 'hidden'}} >
       <Menu 
