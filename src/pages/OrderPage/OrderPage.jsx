@@ -35,6 +35,11 @@ const OrderPage = () => {
     }
   };
 
+  
+  const fullPrice = 214.96;
+  const savings = 42.40;
+  const total = fullPrice - savings;
+
   const handleDeleteOrder = (idGame) => {
     dispatch(removeOrderGame({ idGame }));
   };
@@ -77,113 +82,120 @@ const OrderPage = () => {
           margin: "0 auto",
         }}
       >
-        <h3>Cart</h3>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <WrapperLeft>
-            <WrapperStyleHeader>
-              <span style={{ display: "inline-block", width: "390px" }}>
-                <Checkbox
-                  onChange={handleOnchangeCheckAll}
-                  checked={listChecked?.length === order?.orderItems?.length}
-                ></Checkbox>
-                <span> Have ({order?.orderItems?.length} games)</span>
+        <div style={{ display: "flex", justifyContent: "center", }}>
+        <WrapperLeft>
+        <WrapperStyleHeader style={{background:"#483D8B", fontSize: "30px", color: "#FFF", fontFamily:"Helvetica",}}>
+    <span style={{ display: "inline-block", width: "390px" }}>
+      <Checkbox
+        onChange={handleOnchangeCheckAll}
+        checked={listChecked?.length === order?.orderItems?.length}
+      ></Checkbox>
+      <span style={{color:'#FFFF00', fontSize:'20px', fontWeight:'bold' }}> Have ({order?.orderItems?.length} games)</span>
+    </span>
+    <div
+      style={{
+        flex: 1,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
+      <span style={{color:'#FFFF00', fontSize:'20px', fontWeight:'bold' }}>Price</span>
+      <DeleteOutlined
+        style={{ cursor: "pointer", fontSize:'20px', color:'#FFFF00'}}
+        onClick={handleRemoveAllOrder}
+      />
+    </div>
+  </WrapperStyleHeader>
+  <WrapperListOrder>
+    {order?.orderItems?.map((order) => {
+      return (
+        <WrapperItemOrder>
+          <div
+            style={{
+              width: "390px",
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
+            <Checkbox
+              onChange={onChange}
+              value={order?.game}
+              checked={listChecked.includes(order?.game)
+              }
+            ></Checkbox>
+            <img
+              src={order?.image}
+              style={{
+                width: "77px",
+                height: "79px",
+                objectFit: "cover",
+              }}
+              alt="game"
+            />
+            <div
+              style={{
+                width: 260,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                fontSize: "18px",
+                color: "#4B0082",
+              }}
+            >
+              {order?.name}
+            </div>
+          </div>
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <span>
+              <span style={{ fontSize: "18px", color: "#4B0082",  }}>
+                {order?.price}
               </span>
-              <div
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <span>Price</span>
-                <DeleteOutlined
-                  style={{ cursor: "pointer" }}
-                  onClick={handleRemoveAllOrder}
-                />
-              </div>
-            </WrapperStyleHeader>
-            <WrapperListOrder>
-              {order?.orderItems?.map((order) => {
-                return (
-                  <WrapperItemOrder>
-                    <div
-                      style={{
-                        width: "390px",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 4,
-                      }}
-                    >
-                      <Checkbox
-                        onChange={onChange}
-                        value={order?.game}
-                        checked={listChecked.includes(order?.game)}
-                      ></Checkbox>
-                      <img
-                        src={order?.image}
-                        style={{
-                          width: "77px",
-                          height: "79px",
-                          objectFit: "cover",
-                        }}
-                        alt="game"
-                      />
-                      <div
-                        style={{
-                          width: 260,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {order?.name}
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        flex: 1,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span>
-                        <span style={{ fontSize: "13px", color: "#242424" }}>
-                          {order?.price}
-                        </span>
-                      </span>
+            </span>
 
-                      <DeleteOutlined
-                        style={{ cursor: "pointer" }}
-                        onClick={() => handleDeleteOrder(order?.game)}
-                      />
-                    </div>
-                  </WrapperItemOrder>
-                );
-              })}
-            </WrapperListOrder>
-          </WrapperLeft>
+            <DeleteOutlined
+              style={{ cursor: "pointer", fontSize:'15px' }}
+              onClick={() => handleDeleteOrder(order?.game)}
+            />
+          </div>
+        </WrapperItemOrder>
+      );
+    })}
+  </WrapperListOrder>
+      </WrapperLeft>
+
           <WrapperRight>
-            <div style={{ width: "100%" }}>
-              <WrapperInfo>
+            <h1 style={{color:'#FFF'}}>Cart Summary</h1>
+            
+            <div style={{ width: "100%"}}>
+              <WrapperInfo style={{background: '#696969'}}>
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    
                   }}
                 >
-                  <span>Price</span>
+                  <span style={{ fontSize: '20px', }}>Full Price</span>
                   <span
                     style={{
-                      color: "#000",
-                      fontSize: "14px",
-                      fontWeight: "bold",
+                      color: '#D3D3D3',
+                      textDecoration: 'line-through',
+                      lineHeight: '40px',
+                      fontSize: '20px'
                     }}
                   >
-                    {price()}
+                    ${price()}
                   </span>
                 </div>
 
@@ -195,53 +207,35 @@ const OrderPage = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <span>Tax</span>
+                  <span style={{ fontSize: '20px', }} >Your Saving</span>
                   <span
                     style={{
-                      color: "#000",
-                      fontSize: "14px",
-                      fontWeight: "bold",
+                      color: '#00FF00',
+                      fontSize: '20px',
+                      fontWeight: 'bold'
                     }}
                   >
-                    0
+                    $62
                   </span>
                 </div>
               </WrapperInfo>
-              <WrapperTotal>
-                <span>Total</span>
+              <WrapperTotal style={{background:'#696969'}}>
+                <span style={{ fontSize: '20px', fontWeight:'bold'}}>Total</span>
                 <span style={{ display: "flex", flexDirection: "column" }}>
                   <span
                     style={{
-                      color: "rgb(254, 56, 52)",
+                      color: "#FFD700",
                       fontSize: "24px",
                       fontWeight: "bold",
                     }}
                   >
-                    0213
-                  </span>
-                  <span style={{ color: "#000", fontSize: "11px" }}>
-                    (VAT included if any)
+                    $104
                   </span>
                 </span>
               </WrapperTotal>
+              
             </div>
-            <ButtonComponent
-              // onClick={() => handleAddCard(gameDetails, numGame)}
-              size={40}
-              styleButton={{
-                background: "rgb(255, 57, 69)",
-                height: "48px",
-                width: "220px",
-                border: "none",
-                borderRadius: "4px",
-              }}
-              textButton={"BUY"}
-              styleTextButton={{
-                color: "#fff",
-                fontSize: "15px",
-                fontWeight: "700",
-              }}
-            ></ButtonComponent>
+            <button style={{ backgroundColor: '#ff0000', color: '#fff', padding: '10px 20px', borderRadius: '5px', marginTop: '20px' }}>PROCEED TO CHECKOUT</button>
           </WrapperRight>
         </div>
       </div>
