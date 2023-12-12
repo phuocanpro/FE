@@ -1,5 +1,5 @@
 import { Checkbox } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   WrapperCountOrder,
   WrapperInfo,
@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   removeAllOrderGame,
   removeOrderGame,
+  selectedOrder,
 } from "../../redux/slides/orderSlide.js";
 
 const OrderPage = () => {
@@ -51,6 +52,9 @@ const OrderPage = () => {
     }
   };
 
+  useEffect(() => {
+    dispatch(selectedOrder(listChecked));
+  }, [listChecked]);
   const handleRemoveAllOrder = () => {
     if (listChecked?.length > 1) {
       dispatch(removeAllOrderGame({ listChecked }));
@@ -97,6 +101,8 @@ const OrderPage = () => {
                 }}
               >
                 <span>Price</span>
+                <span>Discount</span>
+                <span>Total Price</span>
                 <DeleteOutlined
                   style={{ cursor: "pointer" }}
                   onClick={handleRemoveAllOrder}
@@ -151,6 +157,16 @@ const OrderPage = () => {
                       <span>
                         <span style={{ fontSize: "13px", color: "#242424" }}>
                           {order?.price}
+                        </span>
+                      </span>
+                      <span>
+                        <span style={{ fontSize: "13px", color: "#242424" }}>
+                          {order?.discount}
+                        </span>
+                      </span>
+                      <span>
+                        <span style={{ fontSize: "13px", color: "#242424" }}>
+                          {order?.totalPrice}
                         </span>
                       </span>
 

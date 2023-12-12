@@ -41,10 +41,17 @@ export const orderSlide = createSlice({
       );
       state.orderItems = itemOrders;
     },
+    selectedOrder: (state, action) => {
+      console.log("selected", state, action);
+    },
   },
 });
 
-export const { addOrderGame, removeOrderGame, removeAllOrderGame } =
-  orderSlide.actions;
+export const {
+  addOrderGame,
+  removeOrderGame,
+  removeAllOrderGame,
+  selectedOrder,
+} = orderSlide.actions;
 
 export const orderReducer = orderSlide.reducer;

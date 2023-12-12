@@ -95,7 +95,9 @@ const ProductDetailsComponent = ({ idGame }) => {
           orderItem: {
             name: stateGameDetails?.name,
             image: stateGameDetails?.image,
-            price: priceProduct(
+            price: stateGameDetails?.price,
+            discount: stateGameDetails?.discount,
+            totalPrice: priceProduct(
               stateGameDetails.price,
               stateGameDetails.discount
             ),
