@@ -20,6 +20,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addOrderGame } from "../../redux/slides/orderSlide";
+
 const ProductDetailsComponent = ({ idGame }) => {
   const [stateGameDetails, setStateGameDetails] = useState({
     name: "",
@@ -95,7 +96,9 @@ const ProductDetailsComponent = ({ idGame }) => {
           orderItem: {
             name: stateGameDetails?.name,
             image: stateGameDetails?.image,
-            price: priceProduct(
+            price: stateGameDetails?.price,
+            discount: stateGameDetails?.discount,
+            totalPrice: priceProduct(
               stateGameDetails.price,
               stateGameDetails.discount
             ),
