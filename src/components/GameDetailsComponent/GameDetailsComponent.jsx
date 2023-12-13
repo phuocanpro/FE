@@ -20,6 +20,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addOrderGame } from "../../redux/slides/orderSlide";
+
 const ProductDetailsComponent = ({ idGame }) => {
   const [stateGameDetails, setStateGameDetails] = useState({
     name: "",

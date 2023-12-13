@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Badge, Col, Image } from "antd";
 import {
   WrapperFooter,
@@ -28,7 +29,6 @@ const FooterComponent = () => {
     clipPath: "polygon(0% 0%, 70% 0, 100% 30%, 100% 100%, 0 100%)",
     transition: "250ms ease",
     marginRight: "10px",
-   
   };
   const styleColP = {
     fontSize: "2rem",
@@ -67,6 +67,13 @@ const FooterComponent = () => {
     maxWidth: "calc(90%)",
   };
 
+  const [email, setEmail] = useState("");
+  const handleOnchangeEmail = (value) => {
+    setEmail(value);
+  };
+
+  const navigate = useNavigate();
+
   const styleColButton = {
     position: "relative",
     backgroundImage:
@@ -92,7 +99,7 @@ const FooterComponent = () => {
         display: "flex",
         justifyContent: "center",
         marginTop: "1100px",
-        marginBottom:'50px',
+        marginBottom: "50px",
       }}
     >
       <WrapperFooter>
@@ -109,7 +116,12 @@ const FooterComponent = () => {
           <div>
             <p style={styleColP}>JOIN OUR NEWSLETTER</p>
 
-            <InputForm style={styleColInput} placeholder="Your Email" />
+            <InputForm
+              style={styleColInput}
+              placeholder="Your Email"
+              value={email}
+              onChange={handleOnchangeEmail}
+            />
             <ButtonComponent
               size="larger"
               styleButton={styleColButton}
@@ -144,7 +156,7 @@ const FooterComponent = () => {
           </div>
         </Col>
         <Col span={8}>
-          <ul style={{ display: "flex", }}>
+          <ul style={{ display: "flex" }}>
             <li style={styleLi}>
               <FacebookOutlined style={styleIcon} />
             </li>

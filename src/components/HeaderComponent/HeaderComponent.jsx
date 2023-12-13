@@ -35,7 +35,11 @@ import Loading from "../LoadingComponent/Loading";
 //   color: "red",
 // };
 
-const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
+const HeaderComponent = ({
+  isHiddenSearch = false,
+  isHiddenCart = false,
+  isZoom = true,
+}) => {
   const styleLi = {
     background: "hsla(240, 63%, 13%, 1)",
     marginRight: "20px",
@@ -62,6 +66,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
     await UserService.logoutUser();
     dispatch(resetUser());
     setLoading(false);
+    navigate("/");
   };
 
   useEffect(() => {
@@ -99,7 +104,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
             isHiddenSearch && isHiddenCart ? "space-between" : "unset",
         }}
       >
-        <Col span={3}>
+        <Col span={3} onClick={() => navigate("/")}>
           <img
             src={logo}
             style={{
@@ -139,6 +144,9 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
                     width: "30px",
                     borderRadius: "50%",
                     objectFit: "cover",
+                    marginRight: "7px",
+                    marginLeft: "10px",
+                    transform: isZoom ? "scale(1.8)" : "none",
                   }}
                   alt="avatar"
                 />
@@ -148,7 +156,13 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
               {user?.access_token ? (
                 <>
                   <Popover content={content} trigger="click">
-                    <div style={{ cursor: "pointer" }}>
+                    <div
+                      style={{
+                        cursor: "pointer",
+                        fontSize: "18px",
+                        fontWeight: "bold",
+                      }}
+                    >
                       {userName?.length ? userName : user?.email}
                     </div>
                   </Popover>
@@ -169,10 +183,10 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false }) => {
               )}
             </WrapperHeaderAccount>
           </Loading>
-
+         
           {!isHiddenCart && (
             <div
-              onClick={() => navigate("/order")}
+              onClick={() => navigate(`/order/${user?.id}`)}
               style={{ cursor: "pointer" }}
             >
               <Badge count={order?.orderItems?.length} size="small">

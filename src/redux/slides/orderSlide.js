@@ -10,6 +10,7 @@ const initialState = {
   user: "",
   isPaid: false,
   orderDate: "",
+  orderItemsSelected: [],
 };
 
 export const orderSlide = createSlice({
@@ -31,7 +32,11 @@ export const orderSlide = createSlice({
       const itemOrder = state?.orderItems?.filter(
         (item) => item?.game !== idGame
       );
+      const orderItemsSelected = state?.orderItemsSelected?.filter(
+        (item) => item?.game !== idGame
+      );
       state.orderItems = itemOrder;
+      state.orderItemsSelected = orderItemsSelected;
     },
     removeAllOrderGame: (state, action) => {
       const { listChecked } = action.payload;
@@ -39,9 +44,21 @@ export const orderSlide = createSlice({
       const itemOrders = state?.orderItems?.filter(
         (item) => !listChecked.includes(item.game)
       );
+      const orderItemsSelected = state?.orderItemsSelected?.filter(
+        (item) => !listChecked.includes(item.game)
+      );
       state.orderItems = itemOrders;
+      state.orderItemsSelected = orderItemsSelected;
     },
     selectedOrder: (state, action) => {
+      const { listChecked } = action.payload;
+      const orderSelected = [];
+      state.orderItems.forEach((order) => {
+        if (listChecked.includes(order?.game)) {
+          orderSelected.push(order);
+        }
+      });
+      state.orderItemsSelected = orderSelected;
       console.log("selected", state, action);
     },
   },

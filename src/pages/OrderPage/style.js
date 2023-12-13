@@ -67,6 +67,7 @@ export const WrapperTotal = styled.div`
   background: #fff;
   border-bottom-right-radius: 6px;
   border-bottom-left-radius: 6px;
+  width: 100%;
 `;
 export const WrapperInputNumber = styled(InputNumber)`
   &.ant-input-number.ant-input-number-sm {

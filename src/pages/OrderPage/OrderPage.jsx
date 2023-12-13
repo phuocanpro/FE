@@ -1,4 +1,4 @@
-import { Checkbox } from "antd";
+import { Button, Checkbox, Form, message } from "antd";
 import React, { useEffect, useState } from "react";
 import {
   WrapperCountOrder,
@@ -20,11 +20,44 @@ import {
   removeOrderGame,
   selectedOrder,
 } from "../../redux/slides/orderSlide.js";
+import ModalComponent from "../../components/ModalComponent/ModalComponent";
+import InputComponent from "../../components/InputComponent/InputComponent";
+import { WrapperUploadFile } from "../../components/AdminUser/style";
+import { useMutationHooks } from "../../hooks/userMutationHook";
+import * as UserService from "../../services/UserService.js";
+import { updateUser } from "../../redux/slides/userSlide";
 
 const OrderPage = () => {
   const order = useSelector((state) => state.order);
+  const user = useSelector((state) => state.user);
   const [listChecked, setListChecked] = useState([]);
+  const [isOpenModalUpdateInfo, setIsOpenModalUpdateInfo] = useState(false);
+
+  const [stateUserDetails, setStateUserDetails] = useState({
+    userName: "",
+    email: "",
+    phone: "",
+  });
+
+  const handleOnchangeDetails = (e) => {
+    setStateUserDetails({
+      ...stateUserDetails,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const mutationUpdate = useMutationHooks(async (data) => {
+    const { id, token, ...rests } = data;
+    const res = await UserService.updateUser(id, { ...rests }, token);
+    return res;
+  });
+
+  const { isLoading, data } = mutationUpdate;
+  console.log("data", data);
+
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
+
   const onChange = (e) => {
     if (listChecked.includes(e.target.value)) {
       const newListChecked = listChecked.filter(
@@ -53,8 +86,9 @@ const OrderPage = () => {
   };
 
   useEffect(() => {
-    dispatch(selectedOrder(listChecked));
+    dispatch(selectedOrder({ listChecked }));
   }, [listChecked]);
+
   const handleRemoveAllOrder = () => {
     if (listChecked?.length > 1) {
       dispatch(removeAllOrderGame({ listChecked }));
@@ -64,12 +98,63 @@ const OrderPage = () => {
   const price = () => {
     var result = 0;
 
-    order?.orderItems?.map((item) => {
+    order?.orderItemsSelected?.map((item) => {
       result = result + Number(item?.price);
       return null;
     });
 
     return result;
+  };
+
+  const totalPrice = () => {
+    var result = 0;
+
+    order?.orderItemsSelected?.map((item) => {
+      result = result + Number(item?.totalPrice);
+      return null;
+    });
+
+    return result;
+  };
+
+  const saving = () => {
+    var result = price() - totalPrice();
+    return result.toFixed(2);
+  };
+
+  const handleAddCard = () => {
+    if (!order.orderItemsSelected?.length) {
+      message.error("Choose games you need buy");
+    } else if (!user?.phone || !user?.userName || !user?.email) {
+      setIsOpenModalUpdateInfo(true);
+    }
+  };
+
+  const handleCancelUpdate = () => {
+    setIsOpenModalUpdateInfo(false);
+  };
+
+  const handleUpdateInforUser = () => {
+    const userName = stateUserDetails.userName;
+    const phone = stateUserDetails.phone;
+    const email = stateUserDetails.email;
+    if (userName && phone && email) {
+      mutationUpdate.mutate(
+        {
+          id: user?.id,
+          token: user?.access_token,
+          ...stateUserDetails,
+        },
+        {
+          onSuccess: () => {
+            dispatch(
+              updateUser({ ...stateUserDetails, access_token: user?.id })
+            );
+            setIsOpenModalUpdateInfo(false);
+          },
+        }
+      );
+    }
   };
 
   return (
@@ -81,16 +166,31 @@ const OrderPage = () => {
           margin: "0 auto",
         }}
       >
-        <h3>Cart</h3>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <WrapperLeft>
-            <WrapperStyleHeader>
+            <WrapperStyleHeader
+              style={{
+                background: "#483D8B",
+                fontSize: "30px",
+                color: "#FFF",
+                fontFamily: "Helvetica",
+              }}
+            >
               <span style={{ display: "inline-block", width: "390px" }}>
                 <Checkbox
                   onChange={handleOnchangeCheckAll}
                   checked={listChecked?.length === order?.orderItems?.length}
                 ></Checkbox>
-                <span> Have ({order?.orderItems?.length} games)</span>
+                <span
+                  style={{
+                    color: "#FFFF00",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {" "}
+                  Have ({order?.orderItems?.length} games)
+                </span>
               </span>
               <div
                 style={{
@@ -100,11 +200,39 @@ const OrderPage = () => {
                   justifyContent: "space-between",
                 }}
               >
-                <span>Price</span>
-                <span>Discount</span>
-                <span>Total Price</span>
+                <span
+                  style={{
+                    color: "#FFFF00",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Price
+                </span>
+                <span
+                  style={{
+                    color: "#FFFF00",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Discount
+                </span>
+                <span
+                  style={{
+                    color: "#FFFF00",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Total Price
+                </span>
                 <DeleteOutlined
-                  style={{ cursor: "pointer" }}
+                  style={{
+                    cursor: "pointer",
+                    fontSize: "20px",
+                    color: "#FFFF00",
+                  }}
                   onClick={handleRemoveAllOrder}
                 />
               </div>
@@ -141,6 +269,8 @@ const OrderPage = () => {
                           overflow: "hidden",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
+                          fontSize: "18px",
+                          color: "#4B0082",
                         }}
                       >
                         {order?.name}
@@ -155,23 +285,24 @@ const OrderPage = () => {
                       }}
                     >
                       <span>
-                        <span style={{ fontSize: "13px", color: "#242424" }}>
+                        <span style={{ fontSize: "18px", color: "#4B0082" }}>
                           {order?.price}
                         </span>
                       </span>
+
                       <span>
-                        <span style={{ fontSize: "13px", color: "#242424" }}>
-                          {order?.discount}
-                        </span>
-                      </span>
-                      <span>
-                        <span style={{ fontSize: "13px", color: "#242424" }}>
-                          {order?.totalPrice}
+                        <span style={{ fontSize: "18px", color: "#4B0082" }}>
+                          {order?.discount} %
                         </span>
                       </span>
 
+                      <span>
+                        <span style={{ fontSize: "18px", color: "#4B0082" }}>
+                          {order?.totalPrice}
+                        </span>
+                      </span>
                       <DeleteOutlined
-                        style={{ cursor: "pointer" }}
+                        style={{ cursor: "pointer", fontSize: "15px" }}
                         onClick={() => handleDeleteOrder(order?.game)}
                       />
                     </div>
@@ -180,9 +311,12 @@ const OrderPage = () => {
               })}
             </WrapperListOrder>
           </WrapperLeft>
+
           <WrapperRight>
+            <h1 style={{ color: "#FFF" }}>Cart Summary</h1>
+
             <div style={{ width: "100%" }}>
-              <WrapperInfo>
+              <WrapperInfo style={{ background: "#696969" }}>
                 <div
                   style={{
                     display: "flex",
@@ -191,15 +325,16 @@ const OrderPage = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <span>Price</span>
+                  <span style={{ fontSize: "20px" }}>Full Price</span>
                   <span
                     style={{
-                      color: "#000",
-                      fontSize: "14px",
-                      fontWeight: "bold",
+                      color: "#D3D3D3",
+                      textDecoration: "line-through",
+                      lineHeight: "40px",
+                      fontSize: "20px",
                     }}
                   >
-                    {price()}
+                    ${price()}
                   </span>
                 </div>
 
@@ -211,56 +346,102 @@ const OrderPage = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <span>Tax</span>
+                  <span style={{ fontSize: "20px" }}>Your Saving</span>
                   <span
                     style={{
-                      color: "#000",
-                      fontSize: "14px",
+                      color: "#00FF00",
+                      fontSize: "20px",
                       fontWeight: "bold",
                     }}
                   >
-                    0
+                    ${saving()}
                   </span>
                 </div>
               </WrapperInfo>
-              <WrapperTotal>
-                <span>Total</span>
+              <WrapperTotal style={{ background: "#696969" }}>
+                <span style={{ fontSize: "20px", fontWeight: "bold" }}>
+                  Total
+                </span>
                 <span style={{ display: "flex", flexDirection: "column" }}>
                   <span
                     style={{
-                      color: "rgb(254, 56, 52)",
+                      color: "#FFD700",
                       fontSize: "24px",
                       fontWeight: "bold",
                     }}
                   >
-                    0213
-                  </span>
-                  <span style={{ color: "#000", fontSize: "11px" }}>
-                    (VAT included if any)
+                    ${totalPrice()}
                   </span>
                 </span>
               </WrapperTotal>
             </div>
             <ButtonComponent
-              // onClick={() => handleAddCard(gameDetails, numGame)}
+              onClick={() => handleAddCard()}
               size={40}
               styleButton={{
-                background: "rgb(255, 57, 69)",
-                height: "48px",
-                width: "220px",
-                border: "none",
-                borderRadius: "4px",
+                backgroundColor: "#ff0000",
+                padding: "10px 20px",
+                borderRadius: "5px",
+                marginTop: "20px",
               }}
-              textButton={"BUY"}
-              styleTextButton={{
-                color: "#fff",
-                fontSize: "15px",
-                fontWeight: "700",
-              }}
+              textButton={"PROCEED TO CHECKOUT"}
+              styleTextButton={{ color: "#fff" }}
             ></ButtonComponent>
           </WrapperRight>
         </div>
       </div>
+      <ModalComponent
+        title="Update information to buy game"
+        open={isOpenModalUpdateInfo}
+        onCancel={handleCancelUpdate}
+        onOk={handleUpdateInforUser}
+      >
+        <Form
+          name="basic"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          style={{ maxWidth: 600 }}
+          // onFinish={onUpdateUser}
+          // autoComplete="on"
+          form={form}
+        >
+          <Form.Item
+            label="UserName"
+            name="userName"
+            rules={[{ required: true, message: "Please input userName!" }]}
+          >
+            <InputComponent
+              value={stateUserDetails.userName}
+              onChange={handleOnchangeDetails}
+              name="userName"
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Please input email!" }]}
+          >
+            <InputComponent
+              value={stateUserDetails.email}
+              onChange={handleOnchangeDetails}
+              name="email"
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Phone"
+            name="phone"
+            rules={[{ required: true, message: "Please input phone!" }]}
+          >
+            <InputComponent
+              value={stateUserDetails.phone}
+              onChange={handleOnchangeDetails}
+              name="phone"
+            />
+          </Form.Item>
+        </Form>
+      </ModalComponent>
     </div>
   );
 };
