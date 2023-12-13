@@ -94,14 +94,13 @@ const ProfilePage = () => {
 
   return (
     <div style={{ width: "1270px", margin: "0 auto", height: "500px" }}>
-      <WrapperHeader>Infor user</WrapperHeader>
       <Loading isLoading={loading}>
         <WrapperContentProfile>
           <WrapperInput>
             <WrapperLabel htmlFor="name">Name</WrapperLabel>
             <InputForm
               id="name"
-              style={{ width: "300px" }}
+              style={{ width: "300px", borderRadius: '1px solid #ccc', }}
               value={name}
               onChange={handleOnchangeName}
             />
@@ -113,10 +112,11 @@ const ProfilePage = () => {
                 width: "fit-content",
                 borderRadius: "4px",
                 padding: "2px 6px 6px",
+                background:"#6A5ACD",
               }}
               textButton={"Update"}
               styleTextButton={{
-                color: " rgb(26, 148, 255)",
+                color: "#F0E68C",
                 fontSize: "15px",
                 fontWeight: "700",
               }}
@@ -138,10 +138,11 @@ const ProfilePage = () => {
                 width: "fit-content",
                 borderRadius: "4px",
                 padding: "2px 6px 6px",
+                background:"#6A5ACD",
               }}
               textButton={"Update"}
               styleTextButton={{
-                color: " rgb(26, 148, 255)",
+                color: "#F0E68C",
                 fontSize: "15px",
                 fontWeight: "700",
               }}
@@ -155,7 +156,7 @@ const ProfilePage = () => {
               value={phone}
               onChange={handleOnchangePhone}
             />
-            <ButtonComponent
+           <ButtonComponent
               onClick={handleUpdate}
               size={40}
               styleButton={{
@@ -163,10 +164,11 @@ const ProfilePage = () => {
                 width: "fit-content",
                 borderRadius: "4px",
                 padding: "2px 6px 6px",
+                background:"#6A5ACD",
               }}
               textButton={"Update"}
               styleTextButton={{
-                color: " rgb(26, 148, 255)",
+                color: "#F0E68C",
                 fontSize: "15px",
                 fontWeight: "700",
               }}
@@ -188,10 +190,11 @@ const ProfilePage = () => {
                 width: "fit-content",
                 borderRadius: "4px",
                 padding: "2px 6px 6px",
+                background:"#6A5ACD",
               }}
               textButton={"Update"}
               styleTextButton={{
-                color: " rgb(26, 148, 255)",
+                color: "#F0E68C",
                 fontSize: "15px",
                 fontWeight: "700",
               }}
@@ -210,26 +213,29 @@ const ProfilePage = () => {
                   width: "60px",
                   borderRadius: "50%",
                   objectFit: "cover",
+                  marginLeft: '26px'
                 }}
                 alt="avatar"
               />
             )}
-            <ButtonComponent
-              onClick={handleUpdate}
-              size={40}
-              styleButton={{
-                height: "30px",
-                width: "fit-content",
-                borderRadius: "4px",
-                padding: "2px 6px 6px",
-              }}
-              textButton={"Update"}
-              styleTextButton={{
-                color: " rgb(26, 148, 255)",
-                fontSize: "15px",
-                fontWeight: "700",
-              }}
-            ></ButtonComponent>
+           <ButtonComponent
+            onClick={handleUpdate}
+            size={40}
+            styleButton={{
+              height: "30px",
+              width: "fit-content",
+              borderRadius: "4px",
+              padding: "2px 6px 6px",
+              background:"#6A5ACD",
+              
+            }}
+            textButton={"Update"}
+            styleTextButton={{
+              color: "#F0E68C",
+              fontSize: "15px",
+              fontWeight: "700",
+            }}
+          ></ButtonComponent>
           </WrapperInput>
         </WrapperContentProfile>
       </Loading>

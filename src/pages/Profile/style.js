@@ -18,10 +18,10 @@ export const WrapperContentProfile = styled.div`
 `;
 
 export const WrapperLabel = styled.label`
-  color: #000;
-  font-size: 12px;
+  color: #FF8C00;
+  font-size: 18px;
   line-height: 30px;
-  font-weight: 600;
+  font-weight: bold;
   width: 60px;
   text-align: left;
 `;
