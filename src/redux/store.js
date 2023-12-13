@@ -1,7 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./slides/counterSlide";
 import { userReducer } from "./slides/userSlide";
 import { orderReducer } from "./slides/orderSlide";
+import  gameReducer  from './slides/gameSlide';
+
 import {
   persistStore,
   persistReducer,
@@ -15,7 +16,7 @@ import {
 import storage from "redux-persist/lib/storage";
 
 const rootReducer = combineReducers({
-  counter: counterReducer,
+  game: gameReducer,
   user: userReducer,
   order: orderReducer,
 });
