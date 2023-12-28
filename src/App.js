@@ -28,7 +28,7 @@ function App() {
     setIsLoading(true);
     const { storageData, decoded } = handleDecoded();
     console.log("decoded", decoded);
-    if (decoded?.id) {
+    if (user?.id) {
       handleGetDetailsUser(decoded?.id, storageData);
     }
     setIsLoading(false);

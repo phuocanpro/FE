@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  search:'',
+  search: "",
 };
 
 export const gameSlide = createSlice({
@@ -17,4 +17,4 @@ export const gameSlide = createSlice({
 // Action creators are generated for each case reducer function
 export const { searchGame } = gameSlide.actions;
 
-export default gameSlide.reducer;
+export const gameReducer = gameSlide.reducer;

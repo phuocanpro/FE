@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as UserService from "../../services/UserService.js";
 import { resetUser } from "../../redux/slides/userSlide.js";
 import Loading from "../LoadingComponent/Loading";
-import { searchGame } from '../../redux/slides/gameSlide';
+import { searchGame } from "../../redux/slides/gameSlide";
 
 // const sizeLi = {
 //   size: "larger",
@@ -91,9 +91,10 @@ const HeaderComponent = ({
     </div>
   );
 
-  const onSearch = (e) =>{
-    setSearch(e.target.value)
-    dispatch(searchGame(e.target.value))  }
+  const onSearch = (e) => {
+    setSearch(e.target.value);
+    dispatch(searchGame(e.target.value));
+  };
   return (
     <div
       style={{
@@ -130,7 +131,7 @@ const HeaderComponent = ({
               size="large"
               textButton="Search"
               placeholder="Input search text"
-             onChange={onSearch}
+              onChange={onSearch}
             />
           </Col>
         )}
@@ -188,7 +189,7 @@ const HeaderComponent = ({
               )}
             </WrapperHeaderAccount>
           </Loading>
-         
+
           {!isHiddenCart && (
             <div
               onClick={() => navigate(`/order/${user?.id}`)}

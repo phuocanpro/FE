@@ -26,8 +26,10 @@ import { WrapperUploadFile } from "../../components/AdminUser/style";
 import { useMutationHooks } from "../../hooks/userMutationHook";
 import * as UserService from "../../services/UserService.js";
 import { updateUser } from "../../redux/slides/userSlide";
+import { useNavigate } from "react-router-dom";
 
 const OrderPage = () => {
+  const navigate = useNavigate();
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user);
   const [listChecked, setListChecked] = useState([]);
@@ -127,6 +129,8 @@ const OrderPage = () => {
       message.error("Choose games you need buy");
     } else if (!user?.phone || !user?.userName || !user?.email) {
       setIsOpenModalUpdateInfo(true);
+    } else {
+      navigate("/payment");
     }
   };
 

@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { userReducer } from "./slides/userSlide";
 import { orderReducer } from "./slides/orderSlide";
-import  gameReducer  from './slides/gameSlide';
+import { gameReducer } from "./slides/gameSlide";
 
 import {
   persistStore,

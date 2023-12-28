@@ -1,14 +1,16 @@
 import axios from "axios";
 import { axiosJWT } from "./UserService";
-export const getAllGame = async (search) => {
-  let res = {}
-  console.log('search', !!search, search)
-  if(search.length >0){
-    res = await axios.get(`${process.env.REACT_APP_API_URL}/game/get-all?filter=name&filter=${search}`);
+export const getAllGame = async (searchGame) => {
+  let res = {};
+
+  if (searchGame) {
+    res = await axios.get(
+      `${process.env.REACT_APP_API_URL}/game/get-all?filter=name&filter=${searchGame}`
+    );
   } else {
     res = await axios.get(`${process.env.REACT_APP_API_URL}/game/get-all`);
   }
-  
+
   return res.data;
 };
 export const getAllTypeGame = async () => {

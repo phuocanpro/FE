@@ -27,6 +27,13 @@ const SignInPage = () => {
     navigate("/sign-up");
   };
 
+  const handleSignin = () => {
+    mutation.mutate({
+      email,
+      password,
+    });
+    // console.log("signin", email, password);
+  };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -61,13 +68,7 @@ const SignInPage = () => {
     // console.log("data", res?.data);
     dispatch(updateUser({ ...res?.data, access_token: token }));
   };
-  const handleSignin = () => {
-    mutation.mutate({
-      email,
-      password,
-    });
-    // console.log("signin", email, password);
-  };
+
   const h1Style = {
     display: "flex",
     justifyContent: "center",

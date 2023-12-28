@@ -7,6 +7,7 @@ import SignInPage from "../pages/SignInPage/SignInPage.jsx";
 import SignUpPage from "../pages/SignUpPage/SignUpPage.jsx";
 import GameDetailsPage from "../pages/GameDetailsPage/GameDetailsPage.jsx";
 import ProfilePage from "../pages/Profile/ProfilePage.jsx";
+import PaymentPage from "../pages/PaymentPage/PaymentPage.jsx";
 
 import AdminPage from "../pages/AdminPage/AdminPage.jsx";
 
@@ -21,6 +22,11 @@ export const routes = [
   {
     path: "/order/:id",
     page: OrderPage,
+    isShowHeader: true,
+  },
+  {
+    path: "/payment",
+    page: PaymentPage,
     isShowHeader: true,
   },
   {

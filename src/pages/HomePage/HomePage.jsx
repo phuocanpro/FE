@@ -11,29 +11,20 @@ import { useQuery } from "@tanstack/react-query";
 import * as GameService from "../../services/GameService.js";
 import { useSelector } from "react-redux";
 const HomePage = () => {
-  const searchGame = useSelector((state) => state?.game?.search)
+  const searchGame = useSelector((state) => state?.game?.search);
   const refSearch = useRef();
   const [stateGames, setStateGames] = useState([]);
   const [limit, setLimit] = useState(6);
-  const fetchGameAll = async (search) => {
-    const res = await GameService.getAllGame(search);
-    if(search?.length >0 ) {
-      setStateGames(res?.data)
-    } else{
-      return res;
+  const fetchGameAll = async () => {
+    let res;
+    if (searchGame && searchGame?.length > 0) {
+      res = await GameService.getAllGame(searchGame);
+      setStateGames(res?.data);
+    } else {
+      res = await GameService.getAllGame();
     }
-    
-   
+    return res;
   };
-  useEffect(() => {
-    if(refSearch.current){
-      fetchGameAll(searchGame)
-    }
-    refSearch.current = true;
-  },[searchGame]);
-
-
-  fetchGameAll();
   const { isLoading, data: games } = useQuery({
     queryKey: ["games"],
     limit,
@@ -41,12 +32,20 @@ const HomePage = () => {
     retry: 3,
     retryDelay: 1000,
   });
-  
+
+  fetchGameAll();
   useEffect(() => {
-    if(games?.length >0) {
-      setStateGames(games)
+    if (refSearch.current) {
+      fetchGameAll(searchGame);
     }
-  }, [games])
+    refSearch.current = true;
+  }, [searchGame]);
+
+  useEffect(() => {
+    if (games?.length > 0) {
+      setStateGames(games);
+    }
+  }, [games]);
 
   const uniqueTypes = Array.from(
     new Set(games?.data?.map((game) => game.type))
