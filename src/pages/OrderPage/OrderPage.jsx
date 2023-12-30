@@ -317,10 +317,10 @@ const OrderPage = () => {
           </WrapperLeft>
 
           <WrapperRight>
-            <h1 style={{ color: "#FFF" }}>Cart Summary</h1>
+            <h1 style={{ color: "#FFF", fontSize:'30px' }}>Cart Summary</h1>
 
             <div style={{ width: "100%" }}>
-              <WrapperInfo style={{ background: "#696969" }}>
+              <WrapperInfo style={{ background: "#808080" }}>
                 <div
                   style={{
                     display: "flex",
@@ -362,7 +362,7 @@ const OrderPage = () => {
                   </span>
                 </div>
               </WrapperInfo>
-              <WrapperTotal style={{ background: "#696969" }}>
+              <WrapperTotal style={{ background: "#808080" }}>
                 <span style={{ fontSize: "20px", fontWeight: "bold" }}>
                   Total
                 </span>
@@ -381,15 +381,15 @@ const OrderPage = () => {
             </div>
             <ButtonComponent
               onClick={() => handleAddCard()}
-              size={40}
+              size={60}
               styleButton={{
                 backgroundColor: "#ff0000",
-                padding: "10px 20px",
                 borderRadius: "5px",
                 marginTop: "20px",
+                
               }}
               textButton={"PROCEED TO CHECKOUT"}
-              styleTextButton={{ color: "#fff" }}
+              styleTextButton={{ color: "#fff", fontWeight:'bold' }}
             ></ButtonComponent>
           </WrapperRight>
         </div>
