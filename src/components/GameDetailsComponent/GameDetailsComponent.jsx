@@ -20,6 +20,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addOrderGame } from "../../redux/slides/orderSlide";
+import LikeButtonComponent from "../LikeButtonComponent/LikeButtonComponent.jsx";
+import CommentComponent from "../CommentComponent/CommentComponent.jsx";
+import { initFacebookSDK } from "../../utils.js";
 
 const ProductDetailsComponent = ({ idGame }) => {
   const [stateGameDetails, setStateGameDetails] = useState({
@@ -52,6 +55,11 @@ const ProductDetailsComponent = ({ idGame }) => {
     }
   };
   useEffect(() => {
+    initFacebookSDK()
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
     if (idGame) {
       fetchGetDetailsGame(idGame);
     }
@@ -124,54 +132,14 @@ const ProductDetailsComponent = ({ idGame }) => {
             />
           </Row>
 
-          <Row style={{ paddingTop: "10px", justifyContent: "space-between" }}>
-            <WrapperStyleColImage span={4}>
-              <WrapperStyleImageSmall
-                src={imageProductSmall}
-                alt="Image Product Small"
-                preview={false}
-              />
-            </WrapperStyleColImage>
-
-            <WrapperStyleColImage span={4}>
-              <WrapperStyleImageSmall
-                src={imageProductSmall}
-                alt="Image Product Small"
-                preview={false}
-              />
-            </WrapperStyleColImage>
-
-            <WrapperStyleColImage span={4}>
-              <WrapperStyleImageSmall
-                src={imageProductSmall}
-                alt="Image Product Small"
-                preview={false}
-              />
-            </WrapperStyleColImage>
-
-            <WrapperStyleColImage span={4}>
-              <WrapperStyleImageSmall
-                src={imageProductSmall}
-                alt="Image Product Small"
-                preview={false}
-              />
-            </WrapperStyleColImage>
-
-            <WrapperStyleColImage span={4}>
-              <WrapperStyleImageSmall
-                src={imageProductSmall}
-                alt="Image Product Small"
-                preview={false}
-              />
-            </WrapperStyleColImage>
-          </Row>
+          
         </Col>
         <Col span={14} style={{ paddingLeft: "10px" }}>
           <WrapperStyleNameProduct>
             {stateGameDetails.name}
           </WrapperStyleNameProduct>
           <div>
-            <Rate disabled defaultValue={2.5} />
+            <Rate disabled defaultValue={4.5} />
             <WrapperStyleTextSell>
               {" "}
               Bye {stateGameDetails.selled}
@@ -179,11 +147,13 @@ const ProductDetailsComponent = ({ idGame }) => {
           </div>
 
           <WrapperPriceProduct>
-            <WrapperPriceGach>{stateGameDetails.price}</WrapperPriceGach>
+            <WrapperPriceGach> {stateGameDetails.price}$</WrapperPriceGach>
             <WrapperPriceTextProduct>
-              {priceProduct(stateGameDetails.price, stateGameDetails.discount)}
+              {priceProduct(stateGameDetails.price, stateGameDetails.discount)}$
             </WrapperPriceTextProduct>
           </WrapperPriceProduct>
+         <LikeButtonComponent dataHref = {"https://developers.facebook.com/docs/plugins/"} />
+          {/* <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="" data-action="" data-size="" data-share="true"></div> */}
           <div
             style={{
               margin: "0 10px",
@@ -277,7 +247,7 @@ const ProductDetailsComponent = ({ idGame }) => {
           // justifyContent: "space-between",
         }}
       >
-        <div style={{ width: "60%" }}>
+        <div style={{ width: "70%" }}>
           <h2>About this game</h2>
           <h4>What is {stateGameDetails.name} ?</h4>
           <p>{stateGameDetails.description}</p>
@@ -307,6 +277,7 @@ const ProductDetailsComponent = ({ idGame }) => {
           </ul>
         </div>
       </div>
+      <CommentComponent dataHref={"https://developers.facebook.com/docs/plugins/comments#configurator"} width="1270" />
     </div>
   );
 };
