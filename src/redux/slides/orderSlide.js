@@ -4,7 +4,6 @@ import { addOrderRedux } from "../../utils";
 const initialState = {
   orderItems: [],
   paymentMethod: "",
-  itemsPrice: 0,
   taxPrice: 0,
   totalPrice: 0,
   user: "",

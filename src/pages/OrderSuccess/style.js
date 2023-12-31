@@ -15,7 +15,7 @@ export const WrapperStyleHeader = styled.div`
 `;
 
 export const WrapperLeft = styled.div`
-  width: 910px;
+  width: 100%;
 `;
 
 export const WrapperListOrder = styled.div``;
@@ -99,4 +99,13 @@ export const WrapperRadio = styled(Radio.Group)`
   flex-direction: column;
   gap: 10px;
   justify-content: center;
+`;
+
+export const WrapperValue = styled.div`
+  background: rgb(240, 248, 255);
+  border: 1px solid rgb(194, 225, 255);
+  padding: 10px;
+  width: fit-content;
+  border-radius: 6px;
+  margin-top: 6px;
 `;

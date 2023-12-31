@@ -1,6 +1,13 @@
-import { Form, message } from "antd";
+import { Form, message, Radio } from "antd";
 import React, { useEffect, useState } from "react";
-import { WrapperLeft, WrapperInfo, WrapperRight, WrapperTotal } from "./style";
+import {
+  Lable,
+  WrapperInfo,
+  WrapperLeft,
+  WrapperRadio,
+  WrapperRight,
+  WrapperTotal,
+} from "./style";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import { useDispatch, useSelector } from "react-redux";
 import ModalComponent from "../../components/ModalComponent/ModalComponent";
@@ -9,11 +16,13 @@ import { useMutationHooks } from "../../hooks/userMutationHook";
 import * as UserService from "../../services/UserService.js";
 import * as OrderService from "../../services/OrderService.js";
 import { updateUser } from "../../redux/slides/userSlide";
+import { Navigate } from "react-router-dom";
 const PaymentPage = () => {
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user);
   const [isOpenModalUpdateInfo, setIsOpenModalUpdateInfo] = useState(false);
 
+  const [payment, setPayment] = useState("paypal");
   const [stateUserDetails, setStateUserDetails] = useState({
     userName: "",
     email: "",
@@ -30,11 +39,32 @@ const PaymentPage = () => {
 
   const mutationOrder = useMutationHooks(async (data) => {
     const { token, ...rests } = data;
-    const res = await OrderService.createOrder({ ...rests }, token);
+    const res = await OrderService.createOrder(token, { ...rests });
     return res;
   });
 
-  const { isLoadingOrder, dataOrder } = mutationOrder;
+  const { isSuccess, isError } = mutationOrder;
+
+  useEffect(() => {
+    if (isSuccess) {
+      message.success("Order success");
+      // Navigate("/orderSuccess", {
+      //   state: {
+      //     token: user?.access_token,
+      //     orderItems: order?.orderItemsSelected,
+      //     paymentMethod: payment,
+      //     totalPrice: total,
+      //     isPaid: order?.isPaid,
+      //     user: user?.id,
+      //     orderDate: order?.orderDate,
+      //   },
+      // });
+      Navigate("/orderSuccess")
+    } else if (isError) {
+      message.error("Error");
+    }
+  }, [isSuccess, isError]);
+
   const handleOnchangeDetails = (e) => {
     setStateUserDetails({
       ...stateUserDetails,
@@ -72,14 +102,30 @@ const PaymentPage = () => {
     return result.toFixed(2);
   };
 
+  const total = totalPrice();
+
   const handleAddOrder = () => {
-    mutationOrder.mutate({
-      token: user?.access_token,
-      ...stateUserDetails,
-    });
+    if (
+      user?.access_token &&
+      order?.orderItemsSelected &&
+      user?.email &&
+      user?.phone &&
+      user?.userName &&
+      user?.id
+    ) {
+      mutationOrder.mutate({
+        token: user?.access_token,
+        orderItems: order?.orderItemsSelected,
+        paymentMethod: payment,
+        totalPrice: total,
+        isPaid: order?.isPaid,
+        user: user?.id,
+        orderDate: order?.orderDate,
+      });
+    }
   };
 
-  console.log("order", order);
+  console.log("order", order, user);
   const handleCancelUpdate = () => {
     setIsOpenModalUpdateInfo(false);
   };
@@ -107,6 +153,9 @@ const PaymentPage = () => {
     }
   };
 
+  const handlePayment = (e) => {
+    setPayment(e.target.value);
+  };
   return (
     <div style={{ with: "100%", height: "100vh" }}>
       <div
@@ -116,8 +165,18 @@ const PaymentPage = () => {
           margin: "0 auto",
         }}
       >
+        <h3>Payment</h3>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <WrapperLeft></WrapperLeft>
+          <WrapperLeft>
+            <WrapperInfo>
+              <div>
+                <Lable>Chọn phương thức thanh toán</Lable>
+                <WrapperRadio onChange={handlePayment} value={payment}>
+                  <Radio value="paypal"> Paypal</Radio>
+                </WrapperRadio>
+              </div>
+            </WrapperInfo>
+          </WrapperLeft>
 
           <WrapperRight>
             <h1 style={{ color: "#FFF" }}>Cart Summary</h1>

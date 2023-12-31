@@ -24,7 +24,7 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage,
-  blacklist: ["game", "user"],
+  blacklist: ["game"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
