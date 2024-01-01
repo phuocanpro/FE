@@ -52,7 +52,12 @@ const TableComponent = (props) => {
           Delete All
         </div>
       )}
-      <button onClick={exportExcel}>Export Excel</button>
+      <button style={{background:"red",
+                      color: "yellow",
+                      fontSize: "16px",
+                      borderRadius: "8px",
+                      padding: "10px 20px"
+   }} onClick={exportExcel}>Export Excel</button>
       <Table
         rowSelection={{
           type: selectionType,

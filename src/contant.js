@@ -1,5 +1,5 @@
 export const orderContant = {
   payment: {
-    paypal: "PAYPAL",
+    paypal: "Payment by Paypal",
   },
 };

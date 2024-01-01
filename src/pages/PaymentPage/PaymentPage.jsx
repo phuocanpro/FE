@@ -15,9 +15,11 @@ import InputComponent from "../../components/InputComponent/InputComponent";
 import { useMutationHooks } from "../../hooks/userMutationHook";
 import * as UserService from "../../services/UserService.js";
 import * as OrderService from "../../services/OrderService.js";
+import * as PaymentService from "../../services/PaymentService";
 import { updateUser } from "../../redux/slides/userSlide";
 import { Navigate, useNavigate } from "react-router-dom";
 import { removeAllOrderGame } from "../../redux/slides/orderSlide";
+import { PayPalButton } from "react-paypal-button-v2";
 const PaymentPage = () => {
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user);
@@ -75,6 +77,7 @@ const PaymentPage = () => {
 
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const [sdkReady, setSdkReady] = useState(false);
 
   const price = () => {
     var result = 0;
@@ -119,7 +122,7 @@ const PaymentPage = () => {
         orderItems: order?.orderItemsSelected,
         paymentMethod: payment,
         totalPrice: total,
-        isPaid: order?.isPaid,
+        // isPaid: order?.isPaid,
         user: user?.id,
         orderDate: order?.orderDate,
       });
@@ -157,6 +160,41 @@ const PaymentPage = () => {
   const handlePayment = (e) => {
     setPayment(e.target.value);
   };
+
+  const addPaypalScript = async () => {
+    const { data } = await PaymentService.getConfig();
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
+    script.async = true;
+    script.onload = () => {
+      setSdkReady(true);
+    };
+    document.body.appendChild(script);
+  };
+
+  useEffect(() => {
+    if (!window.paypal) {
+      addPaypalScript();
+    } else {
+      setSdkReady(true);
+    }
+  }, []);
+
+  const onSuccessPaypal = (details, data) => {
+    mutationOrder.mutate({
+      token: user?.access_token,
+      orderItems: order?.orderItemsSelected,
+      paymentMethod: payment,
+      totalPrice: total,
+      // isPaid: order?.isPaid,
+      user: user?.id,
+      orderDate: order?.orderDate,
+      isPaid: true,
+      paidAt: details.update_time,
+    });
+    // console.log('details, data',details, data)
+  };
   return (
     <div style={{ with: "100%", height: "100vh" }}>
       <div
@@ -166,7 +204,6 @@ const PaymentPage = () => {
           margin: "0 auto",
         }}
       >
-        <h3>Payment</h3>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <WrapperLeft>
             <WrapperInfo>
@@ -183,7 +220,9 @@ const PaymentPage = () => {
             <h1 style={{ color: "#FFF" }}>Cart Summary</h1>
 
             <div style={{ width: "100%" }}>
-              <WrapperInfo style={{ background: "#696969" }}>
+              <WrapperInfo
+                style={{ background: "#696969", padding: "10px 20px" }}
+              >
                 <div
                   style={{
                     display: "flex",
@@ -242,18 +281,30 @@ const PaymentPage = () => {
                 </span>
               </WrapperTotal>
             </div>
-            <ButtonComponent
-              onClick={() => handleAddOrder()}
-              size={40}
-              styleButton={{
-                backgroundColor: "#ff0000",
-                padding: "10px 20px",
-                borderRadius: "5px",
-                marginTop: "20px",
-              }}
-              textButton={"Order"}
-              styleTextButton={{ color: "#fff" }}
-            ></ButtonComponent>
+            {payment === "paypal" && sdkReady ? (
+              <div style={{ width: "320px" }}>
+                <PayPalButton
+                  amount="710"
+                  onSuccess={onSuccessPaypal}
+                  onError={() => {
+                    alert("error");
+                  }}
+                />
+              </div>
+            ) : (
+              <ButtonComponent
+                onClick={() => handleAddOrder()}
+                size={40}
+                styleButton={{
+                  backgroundColor: "#ff0000",
+                  padding: "10px 20px",
+                  borderRadius: "5px",
+                  marginTop: "20px",
+                }}
+                textButton={"Order"}
+                styleTextButton={{ color: "#fff" }}
+              ></ButtonComponent>
+            )}
           </WrapperRight>
         </div>
       </div>
