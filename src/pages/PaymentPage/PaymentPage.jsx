@@ -16,12 +16,13 @@ import { useMutationHooks } from "../../hooks/userMutationHook";
 import * as UserService from "../../services/UserService.js";
 import * as OrderService from "../../services/OrderService.js";
 import { updateUser } from "../../redux/slides/userSlide";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { removeAllOrderGame } from "../../redux/slides/orderSlide";
 const PaymentPage = () => {
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user);
   const [isOpenModalUpdateInfo, setIsOpenModalUpdateInfo] = useState(false);
-
+  const navigate = useNavigate();
   const [payment, setPayment] = useState("paypal");
   const [stateUserDetails, setStateUserDetails] = useState({
     userName: "",
@@ -43,23 +44,23 @@ const PaymentPage = () => {
     return res;
   });
 
-  const { isSuccess, isError } = mutationOrder;
+  const { isSuccess, isError, data: dataOrder } = mutationOrder;
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && dataOrder?.status === "OK") {
+      const arrOrdered = [];
+      order?.orderItemsSelected?.forEach((element) => {
+        arrOrdered.push(element.game);
+      });
+      dispatch(removeAllOrderGame({ listChecked: arrOrdered }));
       message.success("Order success");
-      // Navigate("/orderSuccess", {
-      //   state: {
-      //     token: user?.access_token,
-      //     orderItems: order?.orderItemsSelected,
-      //     paymentMethod: payment,
-      //     totalPrice: total,
-      //     isPaid: order?.isPaid,
-      //     user: user?.id,
-      //     orderDate: order?.orderDate,
-      //   },
-      // });
-      Navigate("/orderSuccess")
+      navigate("/orderSuccess", {
+        state: {
+          orderItems: order?.orderItemsSelected,
+          paymentMethod: payment,
+          totalPrice: total,
+        },
+      });
     } else if (isError) {
       message.error("Error");
     }

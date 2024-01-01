@@ -1,44 +1,44 @@
-import { message } from "antd";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
-  Lable,
-  WrapperInfo,
+  WrapperContainer,
+  WrapperHeaderItem,
+  WrapperFooterItem,
+  WrapperStatus,
   WrapperItemOrder,
-  WrapperLeft,
   WrapperListOrder,
+  WrapperLeft,
   WrapperStyleHeader,
-  WrapperValue,
 } from "./style";
-
+import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { orderContant } from "../../contant";
+import * as OrderService from "../../services/OrderService.js";
+import { useQuery } from "@tanstack/react-query";
 
-const OrderSuccess = () => {
-  const location = useLocation();
-  const { state } = location;
-  console.log("location", location);
+const MyOrder = () => {
+  const user = useSelector((state) => state.user);
+  const fetchMyOrder = async () => {
+    if (user?.id && user?.access_token) {
+      const res = await OrderService.getOrderbyUserId(
+        user?.id,
+        user?.access_token
+      );
+      return res;
+    }
+  };
+  const queryOrder = useQuery({
+    queryKey: ["orders"],
+    queryFn: fetchMyOrder,
+  });
+
+  const { data } = queryOrder;
+  console.log("data", data);
 
   return (
     <div style={{ with: "100%", height: "100vh" }}>
-      <div
-        style={{
-          height: "100%",
-          width: "1270px",
-          margin: "0 auto",
-        }}
-      >
-        <h3>Order success</h3>
+      <div style={{ height: "100%", width: "1270px", margin: "0 auto" }}>
+        <h2 style={{ color: "#fff", fontWeight: "bold" }}>My Order</h2>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <WrapperLeft>
-            <WrapperInfo>
-              <div>
-                <Lable>Phương thức thanh toán</Lable>
-                <WrapperValue>
-                  <span>{orderContant.payment[state?.paymentMethod]}</span>
-                </WrapperValue>
-              </div>
-            </WrapperInfo>
             <WrapperStyleHeader
               style={{
                 background: "#483D8B",
@@ -47,24 +47,12 @@ const OrderSuccess = () => {
                 fontFamily: "Helvetica",
               }}
             >
-              <span style={{ display: "inline-block", width: "390px" }}>
-                <span
-                  style={{
-                    color: "#FFFF00",
-                    fontSize: "20px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {" "}
-                  Have ({state?.orderItems.length} games)
-                </span>
-              </span>
               <div
                 style={{
                   flex: 1,
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "space-between",
+                  gap: "545px",
                 }}
               >
                 <span
@@ -74,37 +62,29 @@ const OrderSuccess = () => {
                     fontWeight: "bold",
                   }}
                 >
+                  Name
+                </span>
+                <span
+                  style={{
+                    color: "#FFFF00",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                  }}
+                >
                   Price
-                </span>
-                <span
-                  style={{
-                    color: "#FFFF00",
-                    fontSize: "20px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Discount
-                </span>
-                <span
-                  style={{
-                    color: "#FFFF00",
-                    fontSize: "20px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Total Price
                 </span>
               </div>
             </WrapperStyleHeader>
             <WrapperListOrder>
-              {state?.orderItems.map((order) => {
+              {data?.data?.orderItems?.map((order) => {
                 return (
                   <WrapperItemOrder>
                     <div
                       style={{
-                        width: "390px",
+                        width: "600px",
                         display: "flex",
                         alignItems: "center",
+
                         gap: 4,
                       }}
                     >
@@ -117,6 +97,7 @@ const OrderSuccess = () => {
                         }}
                         alt="game"
                       />
+
                       <div
                         style={{
                           width: 260,
@@ -138,18 +119,6 @@ const OrderSuccess = () => {
                         justifyContent: "space-between",
                       }}
                     >
-                      <span>
-                        <span style={{ fontSize: "18px", color: "#4B0082" }}>
-                          {order?.price}
-                        </span>
-                      </span>
-
-                      <span>
-                        <span style={{ fontSize: "18px", color: "#4B0082" }}>
-                          {order?.discount} %
-                        </span>
-                      </span>
-
                       <span>
                         <span style={{ fontSize: "18px", color: "#4B0082" }}>
                           {order?.totalPrice}
@@ -176,7 +145,7 @@ const OrderSuccess = () => {
                     fontWeight: "bold",
                   }}
                 >
-                  Total Price: {state?.totalPrice}
+                  Total Price: {data?.data?.totalPrice}
                 </span>
               </span>
             </WrapperStyleHeader>
@@ -186,4 +155,4 @@ const OrderSuccess = () => {
     </div>
   );
 };
-export default OrderSuccess;
+export default MyOrder;

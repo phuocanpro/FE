@@ -87,6 +87,9 @@ const HeaderComponent = ({
           Manager System
         </WrapperContentPopup>
       )}
+      <WrapperContentPopup onClick={() => navigate("/myOrder")}>
+        My Order
+      </WrapperContentPopup>
       <WrapperContentPopup onClick={handleLogout}>Logout</WrapperContentPopup>
     </div>
   );

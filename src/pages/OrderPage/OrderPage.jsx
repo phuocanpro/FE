@@ -22,7 +22,6 @@ import {
 } from "../../redux/slides/orderSlide.js";
 import ModalComponent from "../../components/ModalComponent/ModalComponent";
 import InputComponent from "../../components/InputComponent/InputComponent";
-import { WrapperUploadFile } from "../../components/AdminUser/style";
 import { useMutationHooks } from "../../hooks/userMutationHook";
 import * as UserService from "../../services/UserService.js";
 import { updateUser } from "../../redux/slides/userSlide";
@@ -170,6 +169,7 @@ const OrderPage = () => {
           margin: "0 auto",
         }}
       >
+        <h3>Cart</h3>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <WrapperLeft>
             <WrapperStyleHeader
@@ -317,7 +317,7 @@ const OrderPage = () => {
           </WrapperLeft>
 
           <WrapperRight>
-            <h1 style={{ color: "#FFF", fontSize:'30px' }}>Cart Summary</h1>
+            <h1 style={{ color: "#FFF", fontSize: "30px" }}>Cart Summary</h1>
 
             <div style={{ width: "100%" }}>
               <WrapperInfo style={{ background: "#808080" }}>
@@ -386,10 +386,9 @@ const OrderPage = () => {
                 backgroundColor: "#ff0000",
                 borderRadius: "5px",
                 marginTop: "20px",
-                
               }}
               textButton={"PROCEED TO CHECKOUT"}
-              styleTextButton={{ color: "#fff", fontWeight:'bold' }}
+              styleTextButton={{ color: "#fff", fontWeight: "bold" }}
             ></ButtonComponent>
           </WrapperRight>
         </div>

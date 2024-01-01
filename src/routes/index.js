@@ -9,6 +9,7 @@ import GameDetailsPage from "../pages/GameDetailsPage/GameDetailsPage.jsx";
 import ProfilePage from "../pages/Profile/ProfilePage.jsx";
 import PaymentPage from "../pages/PaymentPage/PaymentPage.jsx";
 import OrderSuccess from "../pages/OrderSuccess/OrderSuccess.jsx";
+import MyOrder from "../pages/MyOrder/MyOrder.jsx";
 
 import AdminPage from "../pages/AdminPage/AdminPage.jsx";
 
@@ -33,6 +34,11 @@ export const routes = [
   {
     path: "/orderSuccess",
     page: OrderSuccess,
+    isShowHeader: true,
+  },
+  {
+    path: "/myOrder",
+    page: MyOrder,
     isShowHeader: true,
   },
   {
