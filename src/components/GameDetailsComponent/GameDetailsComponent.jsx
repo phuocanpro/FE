@@ -121,20 +121,20 @@ const ProductDetailsComponent = ({ idGame }) => {
       <Row style={{ padding: "16px", borderRadius: "4px" }}>
         <Col
           span={10}
-          style={{ borderRight: "1px solid #e5e5e5", paddingRight: "8px" }}
+          // style={{ borderRight: "1px solid #e5e5e5"}}
         >
           <Row>
             <Image
               src={stateGameDetails.image}
               alt="Image Product"
               preview={false}
-              style={{ width: "450px", height: "300px" }}
+              style={{ width: "450px", height: "400px",  }}
             />
           </Row>
 
           
         </Col>
-        <Col span={14} style={{ paddingLeft: "10px" }}>
+        <Col span={14} style={{ paddingLeft: "90px" }}>
           <WrapperStyleNameProduct>
             {stateGameDetails.name}
           </WrapperStyleNameProduct>
@@ -247,7 +247,7 @@ const ProductDetailsComponent = ({ idGame }) => {
           // justifyContent: "space-between",
         }}
       >
-        <div style={{ width: "70%" }}>
+        <div style={{ width: "50%" }}>
           <h2>About this game</h2>
           <h4>What is {stateGameDetails.name} ?</h4>
           <p>{stateGameDetails.description}</p>
@@ -256,21 +256,21 @@ const ProductDetailsComponent = ({ idGame }) => {
         <div>
           <h2>Game Details</h2>
           <ul>
-            <li style={{ paddingBottom: "20px" }}>
+            <li style={{ paddingBottom: "20px",paddingLeft: "20px" }}>
               <u style={{ color: "#9932CC" }}>Genres:</u>{" "}
               {stateGameDetails.type}
             </li>
-            <li style={{ paddingBottom: "20px" }}>
+            <li style={{ paddingBottom: "20px", paddingLeft: "20px" }}>
               <u style={{ color: "#9932CC" }}>Platforms:</u>
               {stateGameDetails.platform}
             </li>
-            <li style={{ paddingBottom: "20px" }}>
+            <li style={{ paddingBottom: "20px", paddingLeft: "20px" }}>
               <u style={{ color: "#9932CC" }}>Publisher:</u> Riot Games
             </li>
-            <li style={{ paddingBottom: "20px" }}>
+            <li style={{ paddingBottom: "20px", paddingLeft: "20px" }}>
               <u style={{ color: "#9932CC" }}>Related Day:</u> 12/9/2012
             </li>
-            <li style={{ paddingBottom: "20px" }}>
+            <li style={{ paddingBottom: "20px" , paddingLeft: "20px"}}>
               <u style={{ color: "#9932CC" }}> Ratings:</u>
               {stateGameDetails.rating}
             </li>

@@ -508,7 +508,7 @@ const AdminGame = () => {
 
   return (
     <div style={{ marginTop: "10px" }}>
-      <WrapperHeader>Manager Games</WrapperHeader>
+      <WrapperHeader >Manager Games</WrapperHeader>
       <div>
         <Button
           style={{
