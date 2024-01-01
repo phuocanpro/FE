@@ -15,7 +15,7 @@ export const WrapperStyleHeader = styled.div`
 `;
 
 export const WrapperLeft = styled.div`
-  width: 910px;
+  width: 900px;
 `;
 
 export const WrapperListOrder = styled.div``;
@@ -52,7 +52,7 @@ export const WrapperRight = styled.div`
 `;
 
 export const WrapperInfo = styled.div`
-  padding: 17px 20px;
+  
   border-bottom: 1px solid #f5f5f5;
   background: #fff;
   border-top-right-radius: 6px;
@@ -81,18 +81,19 @@ export const WrapperInputNumber = styled(InputNumber)`
   }
 `;
 export const Lable = styled.span`
-  font-size: 12px;
-  color: #000;
+  font-size: 25px;
+  color: purple;
   font-weight: bold;
+  font-family: arial;
 `;
 
 export const WrapperRadio = styled(Radio.Group)`
   margin-top: 6px;
   background: rgb(240, 248, 255);
   border: 1px solid rgb(194, 225, 255);
-  width: 500px;
+  width: 400px;
   border-radius: 4px;
-  height: 100px;
+  height: 70px;
   padding: 16px;
   font-weight: normal;
   display: flex;
