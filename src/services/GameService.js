@@ -34,7 +34,7 @@ export const getDetailsGame = async (id) => {
   return res.data;
 };
 export const updateGame = async (id, access_token, data) => {
-  const res = await axiosJWT.put(
+  const res = await axios.put(
     `${process.env.REACT_APP_API_URL}/game/update/${id}`,
     data,
     {
@@ -47,7 +47,7 @@ export const updateGame = async (id, access_token, data) => {
   return res.data;
 };
 export const deleteGame = async (id, access_token) => {
-  const res = await axiosJWT.delete(
+  const res = await axios.delete(
     `${process.env.REACT_APP_API_URL}/game/delete/${id}`,
     {
       // gui/luu access_token vao headers
@@ -59,7 +59,7 @@ export const deleteGame = async (id, access_token) => {
   return res.data;
 };
 export const deleteManyGame = async (data, access_token) => {
-  const res = await axiosJWT.post(
+  const res = await axios.post(
     `${process.env.REACT_APP_API_URL}/game/delete-many`,
     data,
     {

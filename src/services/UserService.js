@@ -15,7 +15,7 @@ export const signupUser = async (data) => {
   return res.data;
 };
 export const getDetailsUser = async (id, access_token) => {
-  const res = await axiosJWT.get(
+  const res = await axios.get(
     `${process.env.REACT_APP_API_URL}/user/get-details/${id}`,
     {
       // gui/luu access_token vao headers
@@ -41,7 +41,7 @@ export const logoutUser = async () => {
 };
 
 export const updateUser = async (id, data, access_token) => {
-  const res = await axiosJWT.put(
+  const res = await axios.put(
     `${process.env.REACT_APP_API_URL}/user/update-user/${id}`,
     data,
     {
@@ -54,7 +54,7 @@ export const updateUser = async (id, data, access_token) => {
   return res.data;
 };
 export const getAllUser = async (access_token) => {
-  const res = await axiosJWT.get(
+  const res = await axios.get(
     `${process.env.REACT_APP_API_URL}/user/getAll`,
     {
       // gui/luu access_token vao headers
@@ -67,7 +67,7 @@ export const getAllUser = async (access_token) => {
 };
 
 export const deleteUser = async (id, access_token) => {
-  const res = await axiosJWT.delete(
+  const res = await axios.delete(
     `${process.env.REACT_APP_API_URL}/user/delete-user/${id}`,
     {
       // gui/luu access_token vao headers
@@ -79,7 +79,7 @@ export const deleteUser = async (id, access_token) => {
   return res.data;
 };
 export const deleteManyUser = async (data, access_token) => {
-  const res = await axiosJWT.post(
+  const res = await axios.post(
     `${process.env.REACT_APP_API_URL}/user/delete-many`,
     data,
     {
